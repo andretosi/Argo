@@ -1,4 +1,7 @@
-class PhysicsEnv:
+from abc import ABC, abstractmethod
+
+
+class PhysicsEnv(ABC):
     def __init__(self):
         """
         Create the physical engine, set initial parameters
@@ -6,30 +9,37 @@ class PhysicsEnv:
         """
         pass
 
+    @classmethod
     def attach_terrain(self, heightmap):
         """
         Given an heightmap, create a terrain from it and attach it to the physical simulation
         """
         pass
     
+    @classmethod
     def close(self):
         """
         Gracefully close the simulation env
         """
         pass
 
-    def step(self):
+    @classmethod
+    def step(self, action):
         """
-        Step the simulation forward (may need other parameters?)
+        Observe a discrete moment in time (step) inside the simulation and provide an action to the agent. This method may actively step the simulation forward, or merely observe its state as it independently goes on. 
+
+        Takes an action, returns at least one observation
         """
         pass
 
+    @classmethod
     def get_num_joints(self) -> int:
         """
         Not strictly necessary but... really useful
         """
         pass
     
+    @classmethod
     def get_joint_info(self, joint_id):
         """
         Just an idea
