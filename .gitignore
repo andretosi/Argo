@@ -15,4 +15,9 @@ entrypoint.sh
 logs
 *.egg-info
 .python-version
+<<<<<<< HEAD
 <q  \d5
+=======
+.idea/
+.ipynb_checkpoints/
+>>>>>>> e5f89de (gitignore update)
