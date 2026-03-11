@@ -1,6 +1,6 @@
 import numpy as np
-from spotmicro.agent.input import Input
-from spotmicro.devices.device import Device
+from src.spotmicro.agent.input import Input
+from src.spotmicro.devices.device import Device
 
 class Controller():
     def __init__(self, device: Device):

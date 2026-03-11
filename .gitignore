@@ -15,4 +15,7 @@ logs
 .egg-info
 .python-version
 .idea/
+<<<<<<< HEAD
 .ipynb_checkpoints/
+=======
+>>>>>>> ab1736d (add mujoco and env / agent interface)

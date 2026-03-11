@@ -1,10 +1,14 @@
 #Assignee: filippo
 
+<<<<<<< HEAD
 from spotmicro.devices.device import Device
 from spotmicro.agent.input import Input
 import numpy as np
 import random 
 import math
+=======
+from src.spotmicro.devices.device import Device
+>>>>>>> ab1736d (add mujoco and env / agent interface)
 
 
 class SmoothRandomController(Device):

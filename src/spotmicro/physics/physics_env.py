@@ -12,7 +12,7 @@ class PhysicsEnv(ABC):
     @classmethod
     def attach_terrain(self, heightmap):
         """
-        Given an heightmap, create a terrain from it and attach it to the physical simulation
+        Given a heightmap, create a terrain from it and attach it to the physical simulation
         """
         pass
     
