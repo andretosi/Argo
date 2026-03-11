@@ -3,10 +3,10 @@ import tempfile
 import yaml
 import os
 
-from spotmicro.env.spotmicro_env import SpotmicroEnv
+from src.spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
 from .data.mock_rw_fn import reward_function, RewardState
-from spotmicro.devices.random_controller import RandomController
-from spotmicro.tools.config import Config
+from src.spotmicro import RandomController
+from src.spotmicro.tools.config import Config
 
 #TODO: add more tests to explore other behaviours. what happens to overrides? pay special attention to thew "matrioska" classes,: Agent and RandomController. How do you override their parameters?
 class TestConfigIntegration(unittest.TestCase):

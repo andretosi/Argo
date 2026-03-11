@@ -1,5 +1,6 @@
 #Assignee: virgina
 
+<<<<<<< HEAD
 
 #class Keyboard(Device):
 #    def __init__(self):
@@ -14,6 +15,10 @@ import time
 
 from spotmicro.devices.device import Device
 from spotmicro.agent.input import Input
+=======
+from src.spotmicro.devices.device import Device
+
+>>>>>>> ab1736d (add mujoco and env / agent interface)
 
 class Keyboard(Device):
   

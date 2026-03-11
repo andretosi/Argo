@@ -1,4 +1,4 @@
-from spotmicro.tools.config import Config, RegisterException
+from src.spotmicro.tools.config import Config, RegisterException
 
 import unittest, tempfile, yaml, os
 

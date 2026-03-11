@@ -2,13 +2,10 @@ import unittest
 from unittest.mock import patch
 import numpy as np
 
-from spotmicro.tools.config import Config
-from spotmicro.devices.random_controller import (
+from src.spotmicro.tools.config import Config
+from src.spotmicro import (
     RandomController,
     BaseState,
-    WalkState,
-    TurnState,
-    StillState,
 )
 
 class TestRandomController(unittest.TestCase):

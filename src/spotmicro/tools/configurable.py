@@ -1,4 +1,4 @@
-from spotmicro.tools.config import Config, ConfigError
+from src.spotmicro.tools.config import Config, ConfigError
 import inspect, yaml, os
 from functools import wraps
 

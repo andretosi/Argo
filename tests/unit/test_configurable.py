@@ -1,5 +1,5 @@
-from spotmicro.tools.config import Config, ConfigError
-from spotmicro.tools.configurable import configurable
+from src.spotmicro.tools.config import Config, ConfigError
+from src.spotmicro.tools.configurable import configurable
 
 import unittest, tempfile, yaml, os
 
