@@ -41,6 +41,7 @@ Requires-Dist: mkdocstrings-python
 Requires-Dist: mkdocstrings
 Requires-Dist: mkdocs-material
 Requires-Dist: mkdocs
+Requires-Dist: mujoco
 Dynamic: license-file
 
 # SPOT ROBOT DOG (By AEA from PoliMI)

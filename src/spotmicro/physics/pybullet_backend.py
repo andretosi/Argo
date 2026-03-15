@@ -3,7 +3,7 @@ import pybullet
 import pybullet_data
 from importlib.resources import files
 
-from src.spotmicro.physics.backend import PhysicsBackend, JointInfo
+from spotmicro.physics.backend import PhysicsBackend, JointInfo
 
 
 class PybulletBackend(PhysicsBackend):
