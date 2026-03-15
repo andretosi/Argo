@@ -56,3 +56,12 @@ model = PPO(
 # Custom logger: ONLY csv + tensorboard (no stdout table)
 new_logger = configure(log_dir, ["csv", "tensorboard"])
 model.set_logger(new_logger)
+
+# ========= TRAIN ==========
+model.learn(
+    total_timesteps=TOTAL_STEPS,
+    reset_num_timesteps=False,
+    callback=checkpoint_callback
+)
+model.save(f"ppo_{run}")
+env.close()
