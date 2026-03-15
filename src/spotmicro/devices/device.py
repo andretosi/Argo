@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.spotmicro.agent.input import Input
+from spotmicro.agent.input import Input
 
 
 class Device(ABC):

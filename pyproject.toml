@@ -25,7 +25,8 @@ dependencies = [
     "mkdocstrings-python",
     "mkdocstrings",
     "mkdocs-material",
-    "mkdocs"
+    "mkdocs",
+    "mujoco"
 ]
 
 [tool.setuptools.packages.find]

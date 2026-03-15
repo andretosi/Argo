@@ -2,11 +2,11 @@ import numpy as np
 from dataclasses import dataclass, field
 from collections import deque
 
-from src.spotmicro.physics.backend import PhysicsBackend, JointInfo
-from src.spotmicro.tools.config import Config
-from src.spotmicro.tools.configurable import configurable
-from src.spotmicro.devices.device import Device
-from src.spotmicro.agent.controller import Controller
+from spotmicro.physics.backend import PhysicsBackend, JointInfo
+from spotmicro.tools.config import Config
+from spotmicro.tools.configurable import configurable
+from spotmicro.devices.device import Device
+from spotmicro.agent.controller import Controller
 
 
 @dataclass
