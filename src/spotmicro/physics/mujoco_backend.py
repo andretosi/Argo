@@ -2,7 +2,7 @@ import numpy as np
 import mujoco
 import mujoco.viewer
 
-from src.spotmicro.physics.backend import PhysicsBackend, JointInfo
+from spotmicro.physics.backend import PhysicsBackend, JointInfo
 
 
 def _quaternion_from_euler(roll, pitch, yaw):
