@@ -66,13 +66,13 @@ MANUAL_TERRAIN_SEED = 12345        # Terrain seed used in "manual" mode.
 
 TRAIN_TOTAL_TIMESTEPS = 10_000_000 # Total training length assumed by the curriculum.
 CURRICULUM_STEP = 100_000          # Virtual training step used in "curriculum_step" mode.
-CURRICULUM_WARMUP_RATIO = 0.05     # Fraction of training kept at the easiest difficulty.
-CURRICULUM_SCHEDULE = "linear"     # "linear" or "exponential" curriculum interpolation.
+CURRICULUM_WARMUP_RATIO = 0.10     # Fraction of training kept at the easiest difficulty.
+CURRICULUM_SCHEDULE = "exponential" # "linear" or "exponential" curriculum interpolation.
 RANDOMIZE_CURRICULUM_TERRAIN = True # True for a new terrain seed at that curriculum step.
 CURRICULUM_TERRAIN_SEED = 12345    # Terrain seed used when the curriculum terrain is fixed.
 
-CURRICULUM_TERRAIN_Z_MAX_INITIAL = 0.02 # Terrain height variation at training start.
-CURRICULUM_TERRAIN_Z_MAX_FINAL = 0.30   # Terrain height variation at training end.
+CURRICULUM_TERRAIN_Z_MAX_INITIAL = 0.01 # Terrain height variation at training start.
+CURRICULUM_TERRAIN_Z_MAX_FINAL = 0.10   # Terrain height variation at training end.
 
 # Default test conditions.
 # Keeping everything explicit makes it easy to understand what the policy sees.
@@ -80,21 +80,45 @@ GROUND_FRICTION = 1.0              # Fixed ground friction used for the test.
 MOTOR_NOISE_STD = 0.0              # Fixed motor noise standard deviation [rad].
 SENSOR_NOISE_SCALE = 0.0           # Fixed sensor-noise multiplier.
 PUSH_VELOCITY = 0.0                # Fixed push strength as target body velocity change [m/s].
-PUSH_INTERVAL_S = 15.0             # Average time between pushes [s] when pushes are enabled.
+PUSH_INTERVAL_S = 20.0             # Average time between pushes [s] when pushes are enabled.
 PUSH_DURATION_STEPS = 2            # Number of control steps each push lasts.
 
 # If True, "curriculum_step" also adjusts friction and perturbations using the
 # same curriculum factor. If False, those stay on the explicit defaults above.
 APPLY_FULL_CURRICULUM_STATE = False # If True, also derive friction/noise/pushes from CURRICULUM_STEP.
 
-CURRICULUM_FRICTION_INITIAL = (0.9, 1.1)  # Friction range at training start.
-CURRICULUM_FRICTION_FINAL = (0.4, 1.5)    # Friction range at training end.
+CURRICULUM_FRICTION_INITIAL = (0.85, 1.15) # Friction range at training start.
+CURRICULUM_FRICTION_FINAL = (0.65, 1.25)   # Friction range at training end.
 CURRICULUM_MOTOR_NOISE_INITIAL = 0.0      # Motor noise at training start [rad].
-CURRICULUM_MOTOR_NOISE_FINAL = 0.05       # Motor noise at training end [rad].
+CURRICULUM_MOTOR_NOISE_FINAL = 0.02       # Motor noise at training end [rad].
 CURRICULUM_SENSOR_NOISE_INITIAL = 0.0     # Sensor-noise scale at training start.
-CURRICULUM_SENSOR_NOISE_FINAL = 1.0       # Sensor-noise scale at training end.
-CURRICULUM_PUSH_VELOCITY_INITIAL = 0.10   # Push strength at training start [m/s].
-CURRICULUM_PUSH_VELOCITY_FINAL = 1.50     # Push strength at training end [m/s].
+CURRICULUM_SENSOR_NOISE_FINAL = 0.5       # Sensor-noise scale at training end.
+CURRICULUM_PUSH_VELOCITY_INITIAL = 0.0    # Push strength at training start [m/s].
+CURRICULUM_PUSH_VELOCITY_FINAL = 0.80     # Push strength at training end [m/s].
+
+CONTROLLER_SETTINGS = {
+    "p_base2still": 0.05,                  # Initial command mix: brief pauses.
+    "p_base2walk": 0.70,                   # Initial command mix: mostly walking.
+    "p_base2turn": 0.25,                   # Initial command mix: allow turning from the start.
+    "p_still2walk": 0.80,                  # After standing, usually ask for walking again.
+    "p_still2turn": 0.20,                  # After standing, sometimes ask for a turn.
+    "p_walk2still": 0.20,                  # End a walk segment with a short pause sometimes.
+    "p_walk2turn": 0.80,                   # End a walk segment with a turn most of the time.
+    "p_turn2still": 0.10,                  # End a turn with a pause only occasionally.
+    "p_turn2walk": 0.90,                   # After turning, usually return to walking.
+    "v_mean": (0.0, 0.0),                  # Center the walking command around zero for omni-directionality.
+    "v_var": (0.35, 0.25),                 # Spread forward/backward and lateral commands.
+    "v_steps_mean": 220,                   # Keep each walk command for a few seconds.
+    "v_steps_var": 30,                     # Small variation in walk-command duration.
+    "w_mean": 0.0,                         # No preferred turn direction.
+    "w_var": 0.35,                         # Moderate yaw-rate variation.
+    "w_radius_mean": 0.10,                 # Favor near in-place turning over wide arcs.
+    "w_radius_var": 0.15,                  # Still allow some curved turns.
+    "w_steps_mean": 120,                   # Keep turning commands long enough to learn them.
+    "w_steps_var": 18,                     # Small variation in turn-command duration.
+    "s_steps_mean": 25,                    # Pauses stay short.
+    "s_steps_var": 6,                      # Small variation in pause length.
+}
 
 
 def create_run_paths():
@@ -110,15 +134,18 @@ def create_run_paths():
 
 def create_reward_config():
     return RewardConfig(
-        tracking_lin_vel=1.0,
-        tracking_ang_vel=0.5,
+        tracking_lin_vel=1.25,
+        tracking_ang_vel=0.75,
         tracking_sigma=0.25,
-        feet_air_time=1.0,
+        feet_air_time=0.5,
         lin_vel_z=-2.0,
-        ang_vel_xy=-0.05,
-        orientation=-1.0,
-        action_rate=-0.01,
-        torques=-0.00001,
+        ang_vel_xy=-0.1,
+        orientation=-1.5,
+        base_height=-1.5,
+        action_rate=-0.02,
+        torques=-0.00002,
+        dof_acc=-5e-7,
+        power=-0.0002,
     )
 
 
@@ -128,7 +155,7 @@ def create_env(cfg):
         use_gui=USE_GUI,
         sim_frequency=SIM_FREQUENCY,
     )
-    device = RandomController(cfg)
+    device = RandomController(cfg, **CONTROLLER_SETTINGS)
     reward_config = create_reward_config()
 
     return SpotmicroEnv(

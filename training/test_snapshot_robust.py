@@ -55,6 +55,30 @@ N_EVAL_EPISODES = 3                # Number of rollout episodes to run.
 DETERMINISTIC = True               # True for deterministic policy actions.
 REALTIME_SLEEP = 1.0 / 240.0       # Extra sleep per control step when GUI is on.
 
+CONTROLLER_SETTINGS = {
+    "p_base2still": 0.05,          # Initial command mix: brief pauses.
+    "p_base2walk": 0.70,           # Initial command mix: mostly walking.
+    "p_base2turn": 0.25,           # Initial command mix: allow turning from the start.
+    "p_still2walk": 0.80,          # After standing, usually ask for walking again.
+    "p_still2turn": 0.20,          # After standing, sometimes ask for a turn.
+    "p_walk2still": 0.20,          # End a walk segment with a short pause sometimes.
+    "p_walk2turn": 0.80,           # End a walk segment with a turn most of the time.
+    "p_turn2still": 0.10,          # End a turn with a pause only occasionally.
+    "p_turn2walk": 0.90,           # After turning, usually return to walking.
+    "v_mean": (0.0, 0.0),          # Center the walking command around zero for omni-directionality.
+    "v_var": (0.35, 0.25),         # Spread forward/backward and lateral commands.
+    "v_steps_mean": 220,           # Keep each walk command for a few seconds.
+    "v_steps_var": 30,             # Small variation in walk-command duration.
+    "w_mean": 0.0,                 # No preferred turn direction.
+    "w_var": 0.35,                 # Moderate yaw-rate variation.
+    "w_radius_mean": 0.10,         # Favor near in-place turning over wide arcs.
+    "w_radius_var": 0.15,          # Still allow some curved turns.
+    "w_steps_mean": 120,           # Keep turning commands long enough to learn them.
+    "w_steps_var": 18,             # Small variation in turn-command duration.
+    "s_steps_mean": 25,            # Pauses stay short.
+    "s_steps_var": 6,              # Small variation in pause length.
+}
+
 
 def create_run_paths():
     run_dir = TRAINING_DIR / "data" / f"{RUN_NAME}_robust"
@@ -69,15 +93,18 @@ def create_run_paths():
 
 def create_reward_config():
     return RewardConfig(
-        tracking_lin_vel=1.0,
-        tracking_ang_vel=0.5,
+        tracking_lin_vel=1.25,
+        tracking_ang_vel=0.75,
         tracking_sigma=0.25,
-        feet_air_time=1.0,
+        feet_air_time=0.5,
         lin_vel_z=-2.0,
-        ang_vel_xy=-0.05,
-        orientation=-1.0,
-        action_rate=-0.01,
-        torques=-0.00001,
+        ang_vel_xy=-0.1,
+        orientation=-1.5,
+        base_height=-1.5,
+        action_rate=-0.02,
+        torques=-0.00002,
+        dof_acc=-5e-7,
+        power=-0.0002,
     )
 
 
@@ -87,7 +114,7 @@ def create_env(cfg):
         use_gui=USE_GUI,
         sim_frequency=SIM_FREQUENCY,
     )
-    device = RandomController(cfg)
+    device = RandomController(cfg, **CONTROLLER_SETTINGS)
     reward_config = create_reward_config()
 
     return SpotmicroEnv(
