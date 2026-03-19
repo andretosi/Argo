@@ -166,3 +166,25 @@ class PybulletBackend(PhysicsBackend):
     @property
     def terrain_id(self):
         return self._terrain_id
+
+    # ── Terrain management ──────────────────────────────────────
+    def spawn_terrain(self, heightmap_data: np.ndarray, scale: list[float], origin: list[float]) -> int:
+        """Spawn terrain from heightmap data and return a handle (body ID)."""
+        num_rows, num_columns = heightmap_data.shape
+        heightmap_flat = heightmap_data.flatten().tolist()
+
+        terrain_shape_id = pybullet.createCollisionShape(
+            shapeType=pybullet.GEOM_HEIGHTFIELD,
+            meshScale=scale,
+            heightfieldData=heightmap_flat,
+            numHeightfieldRows=num_rows,
+            numHeightfieldColumns=num_columns,
+            physicsClientId=self._client
+        )
+        terrain_body_id = pybullet.createMultiBody(0, terrain_shape_id, basePosition=origin, physicsClientId=self._client)
+        pybullet.changeVisualShape(terrain_body_id, -1, rgbaColor=[0.6, 0.6, 0.6, 1], physicsClientId=self._client)
+        return terrain_body_id
+
+    def remove_terrain(self, terrain_handle: int) -> None:
+        """Remove a previously spawned terrain."""
+        pybullet.removeBody(terrain_handle, physicsClientId=self._client)

@@ -112,7 +112,11 @@
   <link name="base_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/mainbody.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/mainbody.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.045 -0.060 -0.015"/>
     </visual>
@@ -130,7 +134,11 @@
   <link name="rear_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/backpart.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/backpart.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.040 -0.060 -0.0140"/>
     </visual>
@@ -152,7 +160,11 @@
   <link name="front_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/frontpart.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/frontpart.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.040 -0.060 -0.0140"/>
     </visual>
@@ -175,7 +187,11 @@
   <link name="front_left_shoulder_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/lshoulder.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/lshoulder.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.135 -0.02 -0.01"/>
     </visual>
@@ -193,7 +209,11 @@
   <link name="front_left_leg_link_cover">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm_cover.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm_cover.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.125 0.04 -0.02"/>
     </visual>
@@ -201,7 +221,11 @@
   <link name="front_left_leg_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.125 0.04 -0.02"/>
       <!--        <geometry>
@@ -224,7 +248,11 @@
   <link name="front_left_foot_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/lfoot.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/lfoot.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.120 0.04 0.1"/>
     </visual>
@@ -242,7 +270,11 @@
   <link name="front_left_toe_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
     </visual>
@@ -295,7 +327,11 @@
   <link name="front_right_shoulder_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rshoulder.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rshoulder.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.135 -0.09 -0.01"/>
     </visual>
@@ -313,7 +349,11 @@
   <link name="front_right_leg_link_cover">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm_cover.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm_cover.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.125 -0.15 -0.02"/>
     </visual>
@@ -321,7 +361,11 @@
   <link name="front_right_leg_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.125 -0.15 -0.02"/>
       <!--        <geometry>
@@ -344,7 +388,11 @@
   <link name="front_right_foot_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rfoot.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rfoot.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.120 -0.15 0.1"/>
     </visual>
@@ -362,7 +410,11 @@
   <link name="front_right_toe_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
     </visual>
@@ -415,7 +467,11 @@
   <link name="rear_left_shoulder_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/lshoulder.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/lshoulder.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.135 -0.02 -0.01"/>
     </visual>
@@ -433,7 +489,11 @@
   <link name="rear_left_leg_link_cover">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm_cover.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm_cover.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.125 0.04 -0.02"/>
     </visual>
@@ -441,7 +501,11 @@
   <link name="rear_left_leg_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.125 0.04 -0.02"/>
       <!--        <geometry>
@@ -464,7 +528,11 @@
   <link name="rear_left_foot_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/lfoot.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/lfoot.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.120 0.04 0.1"/>
     </visual>
@@ -482,7 +550,11 @@
   <link name="rear_left_toe_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
     </visual>
@@ -535,7 +607,11 @@
   <link name="rear_right_shoulder_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rshoulder.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rshoulder.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.135 -0.09 -0.01"/>
     </visual>
@@ -553,7 +629,11 @@
   <link name="rear_right_leg_link_cover">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm_cover.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm_cover.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.125 -0.15 -0.02"/>
     </visual>
@@ -561,7 +641,11 @@
   <link name="rear_right_leg_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.125 -0.15 -0.02"/>
       <!--        <geometry>
@@ -584,7 +668,11 @@
   <link name="rear_right_foot_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rfoot.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/rfoot.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 0 0" xyz="-0.120 -0.15 0.1"/>
     </visual>
@@ -602,7 +690,11 @@
   <link name="rear_right_toe_link">
     <visual>
       <geometry>
+<<<<<<< HEAD
         <mesh filename="/home/virginia/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+=======
+        <mesh filename="/home/anthor/projects/aea_spot_micro/spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+>>>>>>> 8daa0e9 (Integrated Terrain)
       </geometry>
       <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
     </visual>

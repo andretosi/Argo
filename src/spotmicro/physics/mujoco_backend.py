@@ -201,3 +201,77 @@ class MujocoBackend(PhysicsBackend):
     @property
     def data(self):
         return self._data
+
+    # ── Terrain management ──────────────────────────────────────
+    def spawn_terrain(self, heightmap_data: np.ndarray, scale: list[float], origin: list[float]) -> int:
+        """Spawn terrain from heightmap data.
+
+        Modifies the hfield data directly without reloading the model.
+
+        Returns:
+            int: Hfield ID of the terrain
+        """
+        if self._model is None:
+            raise RuntimeError("Model must be loaded before spawning terrain. Call load_model() first.")
+
+        # Find the hfield
+        hfield_id = mujoco.mj_name2id(self._model, mujoco.mjtObj.mjOBJ_HFIELD, "terrain")
+        if hfield_id < 0:
+            raise RuntimeError("No hfield named 'terrain' found in model. Add <hfield name='terrain' .../> to XML.")
+
+        # Get hfield dimensions
+        nrow = self._model.hfield_nrow[hfield_id]
+        ncol = self._model.hfield_ncol[hfield_id]
+
+        # Resize heightmap to match hfield dimensions
+        from scipy.ndimage import zoom
+        scale_factors = (nrow / heightmap_data.shape[0], ncol / heightmap_data.shape[1])
+        resized = zoom(heightmap_data, scale_factors)
+
+        # Normalize to [0, 1] for MuJoCo
+        normalized = (resized - resized.min()) / (resized.max() - resized.min() + 1e-8)
+
+        # Get data slice for this hfield
+        hfield_adr = self._model.hfield_adr[hfield_id]
+        hfield_size = nrow * ncol
+
+        # Modify hfield data directly (no reload!)
+        self._model.hfield_data[hfield_adr:hfield_adr + hfield_size] = normalized.flatten()
+
+        # Update physics constants
+        mujoco.mj_setConst(self._model, self._data)
+
+        # Update rendering if viewer exists
+        if self._viewer is not None:
+            self._viewer.update_hfield(hfield_id)
+            self._viewer.sync()
+
+        # Update ground geom id for contact detection
+        self._ground_geom_id = mujoco.mj_name2id(self._model, mujoco.mjtObj.mjOBJ_GEOM, "floor")
+
+        return hfield_id
+
+    def remove_terrain(self, terrain_handle: int) -> None:
+        """Reset terrain to flat plane.
+
+        Sets all hfield values to 0.5 (middle height = flat).
+        """
+        if self._model is None:
+            return
+
+        hfield_id = terrain_handle
+        nrow = self._model.hfield_nrow[hfield_id]
+        ncol = self._model.hfield_ncol[hfield_id]
+        hfield_adr = self._model.hfield_adr[hfield_id]
+        hfield_size = nrow * ncol
+
+        # Reset to flat (0.5 = middle value)
+        self._model.hfield_data[hfield_adr:hfield_adr + hfield_size] = 0.5
+
+        # Update physics
+        mujoco.mj_setConst(self._model, self._data)
+
+        # Update rendering
+        if self._viewer is not None:
+            self._viewer.update_hfield(hfield_id)
+            self._viewer.sync()

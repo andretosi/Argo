@@ -113,3 +113,14 @@ class PhysicsBackend(ABC):
     def get_feet_contacts(self, foot_link_ids: list[int]) -> set[int]:
         """Return the set of foot link IDs currently in contact with the ground."""
         ...
+
+    # ── Terrain management ──────────────────────────────────────
+    @abstractmethod
+    def spawn_terrain(self, heightmap_data: np.ndarray, scale: list[float], origin: list[float]) -> int:
+        """Spawn terrain from heightmap data and return a handle (body ID)."""
+        ...
+
+    @abstractmethod
+    def remove_terrain(self, terrain_handle: int) -> None:
+        """Remove a previously spawned terrain."""
+        ...
