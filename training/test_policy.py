@@ -38,7 +38,7 @@ env = SpotmicroEnv(
     reward_fn=reward_function,
     reward_state=RewardState(),
     #src_save_file=str(DATA_DIR / f"{run}.pkl")
-    ghost_on=True
+    
     )
 obs, _ = env.reset()
 
