@@ -41,6 +41,7 @@ class KinematicGhost():
         # aggiorna yaw
         self.yaw += w * dt
         self.yaw = (self.yaw + np.pi) % (2 * np.pi) - np.pi
+        print(f"debug: yaw={self.yaw:.2f}")
 
         # trasforma velocità nel frame globale
         dx = (- vx * np.cos(self.yaw) + vy * np.sin(self.yaw)) * dt
@@ -49,6 +50,7 @@ class KinematicGhost():
         # aggiorna posizione
         self.position[0] += dx
         self.position[1] += dy
+        print(f"debug: dx={self.position[0]:.2f} dy={self.position[1]:.2f}")
 
     def _yaw_to_quat(self):
         # semplice conversione yaw -> quaternion
