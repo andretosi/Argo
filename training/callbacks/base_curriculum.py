@@ -128,6 +128,26 @@ class BaseCurriculumCallback(BaseCallback):
             setattr(self, name, value)
         self.config.update(self, serializable)
 
+    def _record_metrics(self, metrics: dict) -> None:
+        """Record scalar curriculum values into the SB3 logger."""
+        if not metrics or self.logger is None:
+            return
+
+        for name, value in metrics.items():
+            if value is None:
+                continue
+
+            if isinstance(value, np.ndarray):
+                if value.size != 1:
+                    continue
+                value = float(value.reshape(-1)[0])
+            elif np.isscalar(value):
+                value = float(value)
+            else:
+                continue
+
+            self.logger.record(name, value)
+
     def _lazy_init(self):
         """Initialize when environment is available. Override in subclasses."""
         if self._initialized:

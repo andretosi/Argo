@@ -191,6 +191,10 @@ class SensorNoiseCurriculumCallback(BaseCurriculumCallback):
             current_factor=float(factor),
             current_noise_scale=float(self._current_scale),
         )
+        self._record_metrics({
+            "curriculum/sensor_noise_factor": factor,
+            "curriculum/sensor_noise_scale": self._current_scale,
+        })
 
     def apply_saved_state(self) -> None:
         """Wrap the environment using the saved sensor-noise snapshot."""

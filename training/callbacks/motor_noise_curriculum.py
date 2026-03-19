@@ -153,6 +153,10 @@ class MotorNoiseCurriculumCallback(BaseCurriculumCallback):
             current_factor=float(factor),
             current_noise_std=float(self._current_noise_std),
         )
+        self._record_metrics({
+            "curriculum/motor_noise_factor": factor,
+            "curriculum/motor_noise_std": self._current_noise_std,
+        })
 
     def apply_saved_state(self) -> None:
         """Wrap the environment using the saved motor-noise snapshot."""

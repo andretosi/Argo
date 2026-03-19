@@ -130,6 +130,12 @@ class FrictionCurriculumCallback(BaseCurriculumCallback):
                 current_factor=float(factor),
                 current_friction=float(friction),
             )
+            self._record_metrics({
+                "curriculum/friction_factor": factor,
+                "curriculum/friction_value": friction,
+                "curriculum/friction_low": low,
+                "curriculum/friction_high": high,
+            })
         except Exception as e:
             if self.verbose:
                 print(f"[FrictionCurriculum] Error setting friction: {e}")

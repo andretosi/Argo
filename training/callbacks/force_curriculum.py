@@ -165,6 +165,11 @@ class ForceCurriculumCallback(BaseCurriculumCallback):
             current_factor=float(factor),
             current_push_vel=float(current_push_vel),
         )
+        self._record_metrics({
+            "curriculum/push_factor": factor,
+            "curriculum/push_velocity": current_push_vel,
+            "curriculum/push_count": self._push_count,
+        })
         self._steps_since_push += 1
 
         # Continue applying current push
@@ -185,6 +190,9 @@ class ForceCurriculumCallback(BaseCurriculumCallback):
             env._backend.apply_external_force(self._current_push_force)
             self._push_steps_remaining -= 1
             self._push_count += 1
+            self._record_metrics({
+                "curriculum/push_count": self._push_count,
+            })
 
     def step_saved_state(self, env=None) -> None:
         """Advance push perturbations using the saved curriculum intensity."""

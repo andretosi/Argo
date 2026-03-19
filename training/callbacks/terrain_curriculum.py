@@ -165,6 +165,12 @@ class TerrainCurriculumCallbackV2(BaseCurriculumCallback):
                 current_z_max=float(z_max),
                 current_seed=int(seed),
             )
+            self._record_metrics({
+                "curriculum/terrain_factor": factor,
+                "curriculum/terrain_z_max": z_max,
+                "curriculum/terrain_seed": seed,
+                "curriculum/terrain_change_count": self._terrain_change_count,
+            })
 
             if self.verbose:
                 print(
