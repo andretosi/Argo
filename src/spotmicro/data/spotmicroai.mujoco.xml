@@ -172,8 +172,8 @@
   </worldbody>
 
   <actuator>
-    <position name="front_left_shoulder_ctrl" joint="front_left_shoulder" kp="60" kv="2" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
-    <position name="front_left_leg_ctrl"      joint="front_left_leg"      kp="200" kv="6" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+    <position name="front_left_shoulder_ctrl" joint="front_left_shoulder" kp="30" kv="2" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+    <position name="front_left_leg_ctrl"      joint="front_left_leg"      kp="100" kv="6" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
     <position name="front_left_foot_ctrl"     joint="front_left_foot"     kp="180" kv="5" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
 
     <position name="front_right_shoulder_ctrl" joint="front_right_shoulder" kp="60" kv="2" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
