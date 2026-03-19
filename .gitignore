@@ -17,9 +17,12 @@ logs
 .python-version
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <q  \d5
 =======
 .idea/
+=======
+>>>>>>> 0d38262 (trained new sim2sim to jump)
 .ipynb_checkpoints/
 >>>>>>> e5f89de (gitignore update)
 =======
