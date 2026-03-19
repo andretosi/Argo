@@ -10,7 +10,7 @@ from stable_baselines3.common.logger import configure
 
 # ========= CONFIG ==========
 TOTAL_STEPS = 20_000_000 # Scratch training usually needs more time
-run = "jump_mujoco_scratch"
+run = "jump_mujoco_scratch2"
 log_dir = f"./logs/{run}"
 
 # Standard Linear Schedule for Scratch Training
@@ -52,8 +52,7 @@ model = PPO(
     gae_lambda=0.95,
     clip_range=0.2,         # More room to move than the 0.1 fine-tune
     ent_coef=0.01,          # Increased entropy to encourage "trying" jumps
-    tensorboard_log=log_dir,
-    device='cpu'
+    tensorboard_log=log_dir
 )
 
 # Custom logger

@@ -172,21 +172,25 @@
   </worldbody>
 
   <actuator>
-    <position name="front_left_shoulder_ctrl" joint="front_left_shoulder" kp="30" kv="2" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
-    <position name="front_left_leg_ctrl"      joint="front_left_leg"      kp="100" kv="6" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
-    <position name="front_left_foot_ctrl"     joint="front_left_foot"     kp="180" kv="5" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
+      <!-- Front Left -->
+      <position name="front_left_shoulder_ctrl" joint="front_left_shoulder" kp="60" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+      <position name="front_left_leg_ctrl"      joint="front_left_leg"      kp="200" kv="10" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+      <position name="front_left_foot_ctrl"     joint="front_left_foot"     kp="150" kv="8" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
 
-    <position name="front_right_shoulder_ctrl" joint="front_right_shoulder" kp="60" kv="2" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
-    <position name="front_right_leg_ctrl"       joint="front_right_leg"      kp="200" kv="6" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
-    <position name="front_right_foot_ctrl"      joint="front_right_foot"     kp="120" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
+      <!-- Front Right -->
+      <position name="front_right_shoulder_ctrl" joint="front_right_shoulder" kp="60" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+      <position name="front_right_leg_ctrl"      joint="front_right_leg"      kp="200" kv="10" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+      <position name="front_right_foot_ctrl"     joint="front_right_foot"     kp="150" kv="8" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
 
-    <position name="rear_left_shoulder_ctrl" joint="rear_left_shoulder" kp="60" kv="2" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
-    <position name="rear_left_leg_ctrl"      joint="rear_left_leg"      kp="200" kv="4" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
-    <position name="rear_left_foot_ctrl"     joint="rear_left_foot"     kp="120" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
+      <!-- Rear Left -->
+      <position name="rear_left_shoulder_ctrl" joint="rear_left_shoulder" kp="60" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+      <position name="rear_left_leg_ctrl"      joint="rear_left_leg"      kp="200" kv="10" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+      <position name="rear_left_foot_ctrl"     joint="rear_left_foot"     kp="150" kv="8" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
 
-    <position name="rear_right_shoulder_ctrl" joint="rear_right_shoulder" kp="60" kv="2" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
-    <position name="rear_right_leg_ctrl"      joint="rear_right_leg"      kp="200" kv="6" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
-    <position name="rear_right_foot_ctrl"     joint="rear_right_foot"     kp="120" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
+      <!-- Rear Right -->
+      <position name="rear_right_shoulder_ctrl" joint="rear_right_shoulder" kp="60" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+      <position name="rear_right_leg_ctrl"      joint="rear_right_leg"      kp="200" kv="10" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+      <position name="rear_right_foot_ctrl"     joint="rear_right_foot"     kp="150" kv="8" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
   </actuator>
 
   <contact>

@@ -11,7 +11,7 @@ from stable_baselines3.common.logger import configure
 
 # ========= CONFIG ==========
 TOTAL_STEPS = 10_000_000
-source_policy = "standPB"  # Your existing PyBullet model name
+source_policy = "jumpPB"  # Your existing PyBullet model name
 run = "jump_mujoco_finetune"
 log_dir = f"./logs/{run}"
 
