@@ -4,11 +4,11 @@ from dataclasses import dataclass, field
 from collections import deque
 from importlib.resources import files
 
-from src.spotmicro.tools.config import Config
-from src.spotmicro.tools.configurable import configurable
-from src.spotmicro.devices.device import Device
-from src.spotmicro.agent.controller import Controller
-from src.spotmicro.physics.mujoco_backend import MujocoBackend
+from ..tools.config import Config
+from ..tools.configurable import configurable
+from ..devices.device import Device
+from .controller import Controller
+from ..physics.mujoco_backend import MujocoBackend
 
 
 def quaternion_from_euler(roll, pitch, yaw):
@@ -213,6 +213,8 @@ class Agent:
 
 
     """
+    __config_exclude__ = {"env", "device"}
+
     def __init__(self, env, device: Device, config: Config, action_space_size: int,
                  joint_max_torque=6.5, left_shoulder_hp=-0.0502, right_shoulder_hp=0.0502, front_legs_hp=-0.55, rear_legs_hp=-0.5, front_feet_hp=1.1, rear_feet_hp=1,
                  shoulder_deadzone=0.07, leg_deadzone=0.075, foot_deadzone=0.075, homing_pitch=-0.065,
@@ -245,7 +247,7 @@ class Agent:
         self._joint_history = deque(maxlen=self.joint_history_maxlen)
 
         # Load MuJoCo model
-        xml_path = str(files("src.spotmicro.data").joinpath("spotmicroai.mujoco.xml"))
+        xml_path = str(files("spotmicro.data").joinpath("spotmicroai.mujoco.xml"))
         self._model = mujoco.MjModel.from_xml_path(xml_path)
         self._data = mujoco.MjData(self._model)
         self._physics_backend = MujocoBackend()

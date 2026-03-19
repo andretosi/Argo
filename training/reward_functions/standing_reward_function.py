@@ -1,19 +1,22 @@
 import pybullet
 import numpy as np
-from src.spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from spotmicro.env.spotmicro_env import SpotmicroEnv
 
 class RewardState:
     def __init__(self):
         self.homing_positions = None
         self.a = -5.0
 
-    def populate(self, env: SpotmicroEnv):
+    def populate(self, env: "SpotmicroEnv"):
         self.homing_positions = np.array([
             float(j.homing_position) for j in env.agent.motor_joints
         ])
         return
     
-def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]:
+def reward_function(env: "SpotmicroEnv", action: np.ndarray) -> tuple[float, dict]:
     # Parabola centered at homing position
     diffs = env.agent.state.joint_positions - env.reward_state.homing_positions
     rewards = env.reward_state.a * np.square(diffs) + 1.0

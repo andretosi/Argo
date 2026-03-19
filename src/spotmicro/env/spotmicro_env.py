@@ -87,6 +87,8 @@ class SpotmicroEnv(gym.Env):
     Private: _step_simulation, _get_observation, _calculate_reward,
              _is_target_state, _is_truncated, _get_info
     """
+    __config_exclude__ = {"backend", "device", "reward_fn", "reward_state", "writer"}
+
     def __init__(self, backend: PhysicsBackend,
                  device: Device, config: Config, reward_fn: callable, reward_state,
                  model_path: str | None = None,

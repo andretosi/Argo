@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 import inspect, os, pickle, warnings
 import time
 
-from src.spotmicro.tools.config import Config
-from src.spotmicro.tools.configurable import configurable
-from src.spotmicro.agent.agent_pybullet import Agent
-from src.spotmicro.env.terrain import Terrain
-from src.spotmicro.devices.device import Device
-from src.spotmicro.tools.tracker import Tracker
+from ..tools.config import Config
+from ..tools.configurable import configurable
+from ..agent.agent_pybullet import Agent
+from .terrain import Terrain
+from ..devices.device import Device
+from ..tools.tracker import Tracker
 
 @configurable
 class SpotmicroEnv(gym.Env):
@@ -82,6 +82,8 @@ class SpotmicroEnv(gym.Env):
             - pitch: (of the base)
             - episode_step
 """
+    __config_exclude__ = {"device", "reward_fn", "reward_state", "writer"}
+
     def __init__(self, device: Device, config: Config, reward_fn: callable, reward_state, use_gui=False, tracker_on=False, dest_save_file=None, src_save_file=None, writer=None,
                  max_episode_len=3000, sim_frequency=240, control_frequency=60, joint_history_max_len=5,
                  min_height=0.15, max_height=0.4, max_pitchroll=0.96, tipping_penalty=-2, jump_fall_penalty=-100, survival_reward=3.0, 

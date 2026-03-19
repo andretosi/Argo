@@ -188,3 +188,46 @@ class PybulletBackend(PhysicsBackend):
     def remove_terrain(self, terrain_handle: int) -> None:
         """Remove a previously spawned terrain."""
         pybullet.removeBody(terrain_handle, physicsClientId=self._client)
+
+    # ── External forces (for domain randomization) ─────────────
+    def apply_external_force(
+        self,
+        force: np.ndarray,
+        position: np.ndarray | None = None,
+        link_id: int = -1
+    ) -> None:
+        """Apply external force to robot body using PyBullet."""
+        if position is None:
+            position = self.get_base_position()
+
+        pybullet.applyExternalForce(
+            objectUniqueId=self._robot_id,
+            linkIndex=link_id,
+            forceObj=force.tolist(),
+            posObj=position.tolist(),
+            flags=pybullet.WORLD_FRAME,
+            physicsClientId=self._client,
+        )
+
+    def get_base_mass(self) -> float:
+        """Return the total mass of the robot."""
+        total_mass = pybullet.getDynamicsInfo(
+            self._robot_id, -1, physicsClientId=self._client
+        )[0]
+
+        for joint_id in range(pybullet.getNumJoints(self._robot_id, physicsClientId=self._client)):
+            total_mass += pybullet.getDynamicsInfo(
+                self._robot_id, joint_id, physicsClientId=self._client
+            )[0]
+
+        return float(total_mass)
+
+    def set_friction(self, friction: float) -> None:
+        """Set ground friction coefficient."""
+        if self._terrain_id is not None:
+            pybullet.changeDynamics(
+                bodyUniqueId=self._terrain_id,
+                linkIndex=-1,
+                lateralFriction=friction,
+                physicsClientId=self._client,
+            )

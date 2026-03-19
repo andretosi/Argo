@@ -124,3 +124,42 @@ class PhysicsBackend(ABC):
     def remove_terrain(self, terrain_handle: int) -> None:
         """Remove a previously spawned terrain."""
         ...
+
+    # ── External forces (for domain randomization) ─────────────
+    @abstractmethod
+    def apply_external_force(
+        self,
+        force: np.ndarray,
+        position: np.ndarray | None = None,
+        link_id: int = -1
+    ) -> None:
+        """
+        Apply an external force to the robot body.
+
+        Parameters
+        ----------
+        force : np.ndarray
+            Force vector (3,) in world frame [Fx, Fy, Fz]
+        position : np.ndarray | None
+            Position (3,) where force is applied. If None, applies at center of mass.
+        link_id : int
+            Link to apply force to. -1 means base link.
+        """
+        ...
+
+    @abstractmethod
+    def get_base_mass(self) -> float:
+        """Return the total robot mass in kg."""
+        ...
+
+    @abstractmethod
+    def set_friction(self, friction: float) -> None:
+        """
+        Set ground friction coefficient.
+
+        Parameters
+        ----------
+        friction : float
+            Lateral friction coefficient (typically 0.5 to 1.5)
+        """
+        ...

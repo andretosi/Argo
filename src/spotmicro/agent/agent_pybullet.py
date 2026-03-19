@@ -4,10 +4,10 @@ from dataclasses import dataclass, field
 from collections import deque
 from importlib.resources import files
 
-from src.spotmicro.tools.config import Config
-from src.spotmicro.tools.configurable import configurable
-from src.spotmicro.devices.device import Device
-from src.spotmicro.agent.controller import Controller
+from ..tools.config import Config
+from ..tools.configurable import configurable
+from ..devices.device import Device
+from .controller import Controller
 
 
 #questa classe contiene soltanto dei dati
@@ -160,6 +160,8 @@ class Agent:
 
 
     """
+    __config_exclude__ = {"env", "device"}
+
     def __init__(self, env, device: Device, config: Config, action_space_size: int,
                  joint_max_torque=6.5, left_shoulder_hp=-0.0502, right_shoulder_hp=0.0502, front_legs_hp=-0.55, rear_legs_hp=-0.5, front_feet_hp=1.1, rear_feet_hp=1,
                  shoulder_deadzone=0.07, leg_deadzone=0.075, foot_deadzone=0.075, homing_pitch=-0.065,
@@ -192,7 +194,7 @@ class Agent:
         self._joint_history = deque(maxlen=self.joint_history_maxlen) # It will hold tuples with np.ndarray of joint_positions and joint_velocities
 
         # <-- PHYSICS_ENV how to load the model of an agent in the sim? need a dedicated method?-->
-        urdf_path = str(files("src.spotmicro.data").joinpath("spotmicroai.urdf"))
+        urdf_path = str(files("spotmicro.data").joinpath("spotmicroai.urdf"))
         # --- Load URDF ---
         self._robot_id = pybullet.loadURDF(
             urdf_path,

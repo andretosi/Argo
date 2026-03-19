@@ -275,3 +275,31 @@ class MujocoBackend(PhysicsBackend):
         if self._viewer is not None:
             self._viewer.update_hfield(hfield_id)
             self._viewer.sync()
+
+    # ── External forces (for domain randomization) ─────────────
+    def apply_external_force(
+        self,
+        force: np.ndarray,
+        position: np.ndarray | None = None,
+        link_id: int = -1
+    ) -> None:
+        """Apply external force using MuJoCo xfrc_applied.
+
+        MuJoCo xfrc_applied is a (nbody, 6) array where each row is [torque(3), force(3)].
+        """
+        # MuJoCo body indexing: 0 = world, 1 = base_link, 2+ = other bodies
+        body_id = 1 if link_id == -1 else link_id + 2
+
+        # xfrc_applied format: [torque_x, torque_y, torque_z, force_x, force_y, force_z]
+        self._data.xfrc_applied[body_id, 3:6] = force
+
+    def get_base_mass(self) -> float:
+        """Return the total mass of the robot."""
+        # body 0 is the world body and should not be counted
+        return float(np.sum(self._model.body_mass[1:]))
+
+    def set_friction(self, friction: float) -> None:
+        """Set ground friction coefficient."""
+        if self._model is not None and self._ground_geom_id >= 0:
+            # MuJoCo geom_friction: [sliding, torsional, rolling]
+            self._model.geom_friction[self._ground_geom_id, 0] = friction

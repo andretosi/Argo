@@ -1,4 +1,4 @@
-from spotmicro.tools.config import Config, ConfigError
+from .config import Config, ConfigError
 import inspect, yaml, os
 from functools import wraps
 
@@ -32,10 +32,13 @@ def configurable(cls):
         )
 
     # 3. Collect configurable (defaulted) parameters, skipping self and None
+    excluded_params = set(getattr(cls, "__config_exclude__", ()))
+
     default_params = {
         name: param.default
         for name, param in sig_params.items()
         if name not in ("self", "config")
+        and name not in excluded_params
         and param.default is not (inspect.Parameter.empty or None)
     }
     
@@ -57,7 +60,9 @@ def configurable(cls):
         #extract params and their runtime value
         overridden_params = {
             name : value for name, value in kwargs.items()
-            if name in default_params and self.config.is_acceptable(value)
+            if name in default_params
+            and name not in excluded_params
+            and self.config.is_acceptable(value)
         }
         
         original_init(self, *args, **kwargs) #run the original constructor

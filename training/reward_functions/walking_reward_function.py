@@ -1,7 +1,8 @@
-import pybullet
 import numpy as np
-# Importa la classe SpotmicroEnv, che definisce l'ambiente di simulazione del robot.
-from src.spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from spotmicro.env.spotmicro_env import SpotmicroEnv
 
 # classe per memorizzare lo stato tra un timestep e l'altro
 class RewardState:
@@ -11,7 +12,7 @@ class RewardState:
         # Posizione precedente della base del robot, inizializzata a zero.
         self.prev_base_position = np.array([0.0, 0.0, 0.0]) # placeholder che viene aggiornato al primo step
 
-    def populate(self, env: SpotmicroEnv): # INUTILIZZATO
+    def populate(self, env: "SpotmicroEnv"): # INUTILIZZATO
         # Questo metodo dovrebbe aggiornare lo stato della ricompensa con le informazioni dell'ambiente, ma attualmente è vuoto.
         return
 
@@ -24,17 +25,23 @@ def fade_in(current_step, start, scale=2.0): # INUTILIZZATO
     return 1.0 - np.exp(-scale * (current_step - start) / 1_000_000)
 
 # Funzione principale che calcola la ricompensa totale per un dato stato e azione.
-def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]:
+def reward_function(env: "SpotmicroEnv", action: np.ndarray) -> tuple[float, dict]:
     # Extract roll, pitch, yaw
     roll, pitch, _ = env.agent.state.roll_pitch_yaw
 
     # Input velocities in robot frame
+<<<<<<< HEAD
     vx_i, vy_i, w_i = tuple(env.agent.controller.input)
     # Target linear velocity in world frame
     target_linear_velocity = np.array(
         pybullet.getMatrixFromQuaternion(env.agent.state.base_orientation)
     ).reshape(3,3) @ np.array([vx_i, vy_i, 0.0])
     target_angular_velocity = np.array([w_i, 0.0, 0.0])
+=======
+    vx_i, vy_i, w_i = tuple(env.agent.controller.input.as_array)
+    target_linear_velocity = np.array([vx_i, vy_i, 0.0], dtype=np.float32)
+    target_angular_velocity = np.array([0.0, 0.0, w_i], dtype=np.float32)
+>>>>>>> 67c64a9 (Add robust training workflow and snapshot tools)
 
     # --- Linear velocity error ---
     target_norm = np.linalg.norm(target_linear_velocity)

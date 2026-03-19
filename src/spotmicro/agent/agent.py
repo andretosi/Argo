@@ -91,6 +91,8 @@ class Agent:
     The methods are meant to be called in this order:
     apply_action() -> backend.step() -> sync_state()
     """
+    __config_exclude__ = {"backend", "device"}
+
     def __init__(self, backend: PhysicsBackend, model_path: str, spawn_height: float,
                  device: Device, config: Config, action_space_size: int,
                  joint_max_torque=6.5, left_shoulder_hp=-0.0502, right_shoulder_hp=0.0502, front_legs_hp=-0.55, rear_legs_hp=-0.5, front_feet_hp=1.1, rear_feet_hp=1,
