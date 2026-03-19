@@ -32,7 +32,7 @@ import time
 def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]:
     # 1. Timing and Phase Constants
     # Adjust T to control how fast the "jump" cycle is (e.g., 1.0 second)
-    T = 1.0 
+    T = 1.5
     env.reward_state.increment_step()
     t = env.reward_state.get_sim_time() % T
     
@@ -87,15 +87,39 @@ def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]
     # If the robot is 0.5m away, this reward drops to near zero quickly.
     reward_precision = np.exp(-10.0 * dist_from_home**2)
 
+    # 3b. Extract velocities and orientation
+    # Get angular velocity (roll_rate, pitch_rate, yaw_rate)
+    ang_vel = env.agent.state.angular_velocity 
+    pitch_rate = ang_vel[1] 
+
+    # 7. Pitch Rate Penalty (The "Faceplant Stopper")
+    # Punishes fast forward/backward rotation
+    reward_pitch_rate = np.exp(-1.0 * (pitch_rate**2))
+
+    # 8. Alive Bonus (The "Motivation" factor)
+    # Gives a flat reward just for having the torso above 0.15m
+    alive_bonus = 2.0 if z_actual > 0.15 else -5.0 # Heavy penalty for "giving up"
+
+    # 9. Landing Stability (Critical for the "awkward position" fix)
+    # If we are in the landing phase (t > 0.8T), reward standing still
+    reward_stability = 0.0
+    if t > 0.8 * T and not is_airborne:
+        # Reward for low joint velocities (standing still)
+        qvel_norm = np.linalg.norm(env._backend._data.qvel)
+    reward_stability = np.exp(-0.1 * qvel_norm)
+
 
     # === Final reward ===
     reward_dict = {
-        "height_tracking": 1.0 * reward_height,
-        "velocity_thrust": 1.0 * reward_velocity,
-        "airtime": 1.5 * reward_airtime,
-        "orientation": 0.5 * reward_orientation,
+        "height_tracking": 1.5 * reward_height,  # Boosted
+        "velocity_thrust": 2.0 * reward_velocity, # Boosted to encourage the "Pop"
+        "airtime": 3.0 * reward_airtime,         # High value for actually jumping
+        "orientation": 1.0 * reward_orientation,
+        "pitch_rate_control": 1.0 * reward_pitch_rate, # New: Stops the tumble
+        "alive_bonus": alive_bonus,              # New: Prevents "Lazy Turtle" behavior
+        "stability": 1.0 * reward_stability,      # New: Encourages clean landings
         "precision": 0.5 * reward_precision,
-        "effort_penalty": 0.5 * effort_penalty,
+        "effort_penalty": 0.2 * effort_penalty,  # Lowered: Let it use power to save itself
     }
 
     total_reward = sum(reward_dict.values())
