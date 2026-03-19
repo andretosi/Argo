@@ -7,6 +7,7 @@ class RewardState:
         self.prev_contacts = set()
         self.a = -5.0   # controls steepness of parabola
         self.step_count = 0
+        self.home_xy = (0.0, 0.0)
 
         # will hold homing positions in raw joint space
         self.homing_positions = None
@@ -78,13 +79,23 @@ def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]
     # Reduced weight on effort so it doesn't become "lazy"
     effort_penalty = -1 * np.mean((efforts / max_torque) ** 2)
 
+    # 6. Drift / Landing Precision
+    current_xy = np.array(current_pos[:2]) # Get [X, Y]
+    dist_from_home = np.linalg.norm(current_xy - env.reward_state.home_xy)
+    
+    # We use a negative exponential (Gaussian) so 0 distance = 1.0 reward
+    # If the robot is 0.5m away, this reward drops to near zero quickly.
+    reward_precision = np.exp(-10.0 * dist_from_home**2)
+
+
     # === Final reward ===
     reward_dict = {
         "height_tracking": 1.0 * reward_height,
         "velocity_thrust": 1.0 * reward_velocity,
         "airtime": 1.5 * reward_airtime,
         "orientation": 0.5 * reward_orientation,
-        "effort_penalty": 0.05 * effort_penalty,
+        "precision": 0.5 * reward_precision,
+        "effort_penalty": 0.5 * effort_penalty,
     }
 
     total_reward = sum(reward_dict.values())
