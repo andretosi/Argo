@@ -1,8 +1,10 @@
 import numpy as np
 import mujoco
 import mujoco.viewer
+import time
 
 from spotmicro.physics.backend import PhysicsBackend, JointInfo
+
 
 
 def _quaternion_from_euler(roll, pitch, yaw):
@@ -83,6 +85,7 @@ class MujocoBackend(PhysicsBackend):
     # ── Simulation stepping ────────────────────────────────────
     def step(self) -> None:
         mujoco.mj_step(self._model, self._data)
+
 
     def sync_viewer(self) -> None:
         if self._viewer is not None:

@@ -2,6 +2,7 @@ import numpy as np
 import pybullet
 import pybullet_data
 from importlib.resources import files
+import time
 
 from spotmicro.physics.backend import PhysicsBackend, JointInfo
 
@@ -51,6 +52,8 @@ class PybulletBackend(PhysicsBackend):
             physicsClientId=self._client,
         )
 
+
+
     def close(self) -> None:
         if self._client is not None:
             pybullet.disconnect(self._client)
@@ -59,6 +62,8 @@ class PybulletBackend(PhysicsBackend):
     # ── Simulation stepping ────────────────────────────────────
     def step(self) -> None:
         pybullet.stepSimulation(physicsClientId=self._client)
+        if self._use_gui:
+            time.sleep(1/75.)
 
     def sync_viewer(self) -> None:
         pass  # PyBullet GUI updates automatically
