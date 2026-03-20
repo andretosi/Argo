@@ -106,7 +106,7 @@ def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]
     if t > 0.8 * T and not is_airborne:
         # Reward for low joint velocities (standing still)
         qvel_norm = np.linalg.norm(env._backend._data.qvel)
-    reward_stability = np.exp(-0.1 * qvel_norm)
+        reward_stability = np.exp(-0.1 * qvel_norm)
 
 
     # === Final reward ===
