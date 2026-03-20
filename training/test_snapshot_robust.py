@@ -26,7 +26,7 @@ from training.callbacks import (
     FrictionCurriculumCallback,
     MotorNoiseCurriculumCallback,
     SensorNoiseCurriculumCallback,
-    TerrainCurriculumCallbackV2,
+    TerrainCurriculumCallback,
 )
 from training.reward_functions.robust_walking_reward import (
     RewardConfig,
@@ -151,7 +151,7 @@ def resolve_model_stem(paths):
 
 
 def restore_snapshot(cfg, env):
-    terrain_callback = TerrainCurriculumCallbackV2(config=cfg, env=env, verbose=False)
+    terrain_callback = TerrainCurriculumCallback(config=cfg, env=env, verbose=False)
     force_callback = ForceCurriculumCallback(config=cfg, env=env, verbose=False)
     friction_callback = FrictionCurriculumCallback(config=cfg, env=env, verbose=False)
     motor_noise_callback = MotorNoiseCurriculumCallback(config=cfg, env=env, verbose=False)

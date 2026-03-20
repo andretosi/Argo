@@ -1,57 +1,15 @@
-"""
-Friction Curriculum Callback
-============================
-
-Atomic callback for friction randomization curriculum.
-Gradually widens friction range during training.
-
-Usage:
-    from training.callbacks import FrictionCurriculumCallback
-    from spotmicro.tools.config import Config
-
-    callback = FrictionCurriculumCallback(
-        config=Config(),
-        env=env,
-        total_timesteps=1_000_000,
-        friction_initial=(0.9, 1.1),
-        friction_final=(0.4, 1.5),
-    )
-"""
+"""Friction randomization curriculum callback."""
 
 import numpy as np
 from spotmicro.tools.config import Config
 from spotmicro.tools.configurable import configurable
 
-from training.callbacks.base_curriculum import BaseCurriculumCallback
+from training.callbacks.curriculum_base import BaseCurriculumCallback
 
 
 @configurable
 class FrictionCurriculumCallback(BaseCurriculumCallback):
-    """
-    Atomic callback for friction randomization curriculum.
-
-    Randomizes ground friction at episode boundaries with progressively
-    widening range.
-    At start: narrow range (friction_initial)
-    At end: wide range (friction_final)
-
-    Parameters
-    ----------
-    config : Config
-        Central config registry
-    env : SpotmicroEnv
-        Training environment
-    total_timesteps : int
-        Estimated total training timesteps
-    friction_initial_low : float
-        Starting friction range low (default: 0.9)
-    friction_initial_high : float
-        Starting friction range high (default: 1.1)
-    friction_final_low : float
-        Final friction range low (default: 0.4)
-    friction_final_high : float
-        Final friction range high (default: 1.5)
-    """
+    """Widen the friction randomization range over training."""
 
     def __init__(
         self,
@@ -60,6 +18,7 @@ class FrictionCurriculumCallback(BaseCurriculumCallback):
         total_timesteps: int = 1_000_000,
         schedule: str = "linear",
         warmup_ratio: float = 0.05,
+        progression_mode: str = "time",
         friction_initial_low: float = 0.9,
         friction_initial_high: float = 1.1,
         friction_final_low: float = 0.4,
@@ -74,6 +33,7 @@ class FrictionCurriculumCallback(BaseCurriculumCallback):
             total_timesteps=total_timesteps,
             schedule=schedule,
             warmup_ratio=warmup_ratio,
+            progression_mode=progression_mode,
             verbose=verbose,
         )
 

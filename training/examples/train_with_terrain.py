@@ -35,7 +35,7 @@ from spotmicro.tools.TerrainTools import Heightmap
 from spotmicro.devices.random_controller import RandomController
 
 # Training callbacks
-from training.callbacks.terrain_callback import TerrainChangeCallback, CurriculumTerrainCallback
+from training.callbacks.legacy_terrain import TerrainChangeCallback, CurriculumTerrainCallback
 
 
 # ============================================================================

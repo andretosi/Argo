@@ -1,61 +1,15 @@
-"""
-Force Curriculum Callback
-=========================
-
-Atomic callback for push force perturbation curriculum.
-Gradually increases push force magnitude during training.
-
-Usage:
-    from training.callbacks import ForceCurriculumCallback
-    from spotmicro.tools.config import Config
-
-    callback = ForceCurriculumCallback(
-        config=Config(),
-        env=env,
-        total_timesteps=1_000_000,
-        push_vel_initial=0.1,
-        push_vel_final=1.5,
-        push_interval_s=15.0,
-    )
-"""
+"""Push-force curriculum callback."""
 
 import numpy as np
 from spotmicro.tools.config import Config
 from spotmicro.tools.configurable import configurable
 
-from training.callbacks.base_curriculum import BaseCurriculumCallback
+from training.callbacks.curriculum_base import BaseCurriculumCallback
 
 
 @configurable
 class ForceCurriculumCallback(BaseCurriculumCallback):
-    """
-    Atomic callback for push force perturbation curriculum.
-
-    Applies random push forces with progressively increasing magnitude.
-    At start: gentle pushes (push_vel_initial m/s velocity change)
-    At end: strong pushes (push_vel_final m/s velocity change)
-
-    Parameters
-    ----------
-    config : Config
-        Central config registry
-    env : SpotmicroEnv
-        Training environment
-    total_timesteps : int
-        Estimated total training timesteps
-    push_vel_initial : float
-        Starting max push velocity in m/s (default: 0.1)
-    push_vel_final : float
-        Final max push velocity (default: 1.5)
-    push_interval_s : float
-        Time between pushes in seconds (default: 15.0)
-    push_duration_steps : int
-        Steps to apply force (default: 2)
-    push_interval_range_low : float
-        Low multiplier for random interval (default: 0.8)
-    push_interval_range_high : float
-        High multiplier for random interval (default: 1.2)
-    """
+    """Apply progressively stronger random pushes during training."""
 
     def __init__(
         self,
@@ -64,6 +18,7 @@ class ForceCurriculumCallback(BaseCurriculumCallback):
         total_timesteps: int = 1_000_000,
         schedule: str = "linear",
         warmup_ratio: float = 0.05,
+        progression_mode: str = "time",
         push_vel_initial: float = 0.1,
         push_vel_final: float = 1.5,
         push_interval_s: float = 15.0,
@@ -80,6 +35,7 @@ class ForceCurriculumCallback(BaseCurriculumCallback):
             total_timesteps=total_timesteps,
             schedule=schedule,
             warmup_ratio=warmup_ratio,
+            progression_mode=progression_mode,
             verbose=verbose,
         )
 

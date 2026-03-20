@@ -1,61 +1,15 @@
-"""
-Terrain Curriculum Callback
-===========================
-
-Atomic callback for terrain difficulty curriculum.
-Gradually increases terrain height variation during training.
-
-Usage:
-    from training.callbacks import TerrainCurriculumCallbackV2
-    from spotmicro.tools.config import Config
-
-    callback = TerrainCurriculumCallbackV2(
-        config=Config(),
-        env=env,
-        total_timesteps=1_000_000,
-        z_max_initial=0.02,
-        z_max_final=0.3,
-        change_every_episodes=50,
-    )
-"""
+"""Terrain difficulty curriculum callback."""
 
 import numpy as np
 from spotmicro.tools.config import Config
 from spotmicro.tools.configurable import configurable
 
-from training.callbacks.base_curriculum import BaseCurriculumCallback
+from training.callbacks.curriculum_base import BaseCurriculumCallback
 
 
 @configurable
 class TerrainCurriculumCallbackV2(BaseCurriculumCallback):
-    """
-    Atomic callback for terrain difficulty curriculum.
-
-    Spawns terrain with progressively increasing height variation.
-    At start: nearly flat terrain (z_max_initial)
-    At end: full height variation (z_max_final)
-
-    Parameters
-    ----------
-    config : Config
-        Central config registry
-    env : SpotmicroEnv
-        Training environment
-    total_timesteps : int
-        Estimated total training timesteps
-    z_max_initial : float
-        Starting terrain height variation in meters (default: 0.02)
-    z_max_final : float
-        Final terrain height variation (default: 0.3)
-    change_every_episodes : int
-        Change terrain every N episodes (default: 50)
-    terrain_size : int
-        Heightmap resolution (default: 256)
-    scale : list
-        Terrain scale [x, y, z] (default: [0.02, 0.02, 1.0])
-    origin : list
-        Terrain origin [x, y, z] (default: [0.0, 0.0, 0.0])
-    """
+    """Spawn progressively harder terrain at episode boundaries."""
 
     def __init__(
         self,
@@ -64,6 +18,7 @@ class TerrainCurriculumCallbackV2(BaseCurriculumCallback):
         total_timesteps: int = 1_000_000,
         schedule: str = "linear",
         warmup_ratio: float = 0.05,
+        progression_mode: str = "time",
         z_max_initial: float = 0.02,
         z_max_final: float = 0.3,
         change_every_episodes: int = 50,
@@ -81,6 +36,7 @@ class TerrainCurriculumCallbackV2(BaseCurriculumCallback):
             total_timesteps=total_timesteps,
             schedule=schedule,
             warmup_ratio=warmup_ratio,
+            progression_mode=progression_mode,
             verbose=verbose,
         )
 

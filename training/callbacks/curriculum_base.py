@@ -1,39 +1,13 @@
-"""
-Base Curriculum Callback
-========================
-
-Provides shared curriculum progression logic for all curriculum callbacks.
-
-Usage:
-    from training.callbacks.base_curriculum import BaseCurriculumCallback
-
-    class MyCallback(BaseCurriculumCallback):
-        def _apply_curriculum(self, env, factor: float):
-            # factor is 0.0 at start, 1.0 at end
-            ...
-"""
+from abc import abstractmethod
 
 import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
-from abc import abstractmethod
 
 from spotmicro.tools.config import Config
 
 
 class BaseCurriculumCallback(BaseCallback):
-    """
-    Base class for curriculum learning callbacks.
-
-    Provides:
-    - Progress tracking (timesteps/episodes)
-    - Curriculum factor calculation with warmup
-    - Linear/exponential scheduling
-    - Environment unwrapping utilities
-
-    Subclasses must implement:
-    - _apply_curriculum(env, factor): Apply curriculum at given factor (0.0-1.0)
-    - _on_episode_end(env): Called at end of each episode
-    """
+    """Shared base class for the active curriculum callbacks."""
     __config_exclude__ = {"env"}
 
     def __init__(
@@ -43,6 +17,7 @@ class BaseCurriculumCallback(BaseCallback):
         total_timesteps: int = 1_000_000,
         schedule: str = "linear",
         warmup_ratio: float = 0.05,
+        progression_mode: str = "time",
         verbose: bool = True,
     ):
         """
@@ -69,6 +44,7 @@ class BaseCurriculumCallback(BaseCallback):
         self.total_timesteps = total_timesteps
         self.schedule = schedule
         self.warmup_ratio = warmup_ratio
+        self.progression_mode = progression_mode
 
         # Internal state
         self._timesteps = 0
@@ -84,17 +60,23 @@ class BaseCurriculumCallback(BaseCallback):
             env = env.env
         return env
 
-    def _get_progress(self) -> float:
-        """Get normalized training progress (0.0 to 1.0)."""
+    def _get_time_progress(self) -> float:
+        """Get normalized timestep progress (0.0 to 1.0)."""
         return min(1.0, self._timesteps / self.total_timesteps)
 
-    def _get_curriculum_factor(self) -> float:
-        """
-        Get curriculum interpolation factor with warmup.
+    def _get_progress(self) -> float:
+        """Get normalized curriculum progress from time or competence."""
+        if self.progression_mode == "competence":
+            competence_cfg = self.config.central_registry.get("CompetenceTrackerCallback", {})
+            competence_progress = competence_cfg.get("competence_progress")
+            if competence_progress is not None:
+                return float(np.clip(competence_progress, 0.0, 1.0))
 
-        Returns 0.0 during warmup, then ramps from 0 to 1.
-        """
-        progress = self._get_progress()
+        return self._get_time_progress()
+
+    def _map_progress_to_factor(self, progress: float) -> float:
+        """Map normalized progress to a curriculum factor using warmup and schedule."""
+        progress = float(np.clip(progress, 0.0, 1.0))
 
         # During warmup, stay at initial difficulty
         if progress < self.warmup_ratio:
@@ -110,6 +92,14 @@ class BaseCurriculumCallback(BaseCallback):
             return adjusted_progress ** 2
         else:
             return adjusted_progress
+
+    def _get_curriculum_factor(self) -> float:
+        """
+        Get curriculum interpolation factor with warmup.
+
+        Returns 0.0 during warmup, then ramps from 0 to 1.
+        """
+        return self._map_progress_to_factor(self._get_progress())
 
     def _interpolate(self, initial: float, final: float, factor: float) -> float:
         """Linearly interpolate between initial and final values."""
@@ -130,8 +120,10 @@ class BaseCurriculumCallback(BaseCallback):
 
     def _record_metrics(self, metrics: dict) -> None:
         """Record scalar curriculum values into the SB3 logger."""
-        if not metrics or self.logger is None:
+        if not metrics or not hasattr(self, "model"):
             return
+
+        logger = self.logger
 
         for name, value in metrics.items():
             if value is None:
@@ -146,7 +138,7 @@ class BaseCurriculumCallback(BaseCallback):
             else:
                 continue
 
-            self.logger.record(name, value)
+            logger.record(name, value)
 
     def _lazy_init(self):
         """Initialize when environment is available. Override in subclasses."""

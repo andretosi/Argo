@@ -23,11 +23,12 @@ from spotmicro.env.spotmicro_env import SpotmicroEnv
 from spotmicro.physics.factory import create_backend
 from spotmicro.tools.config import Config
 from training.callbacks import (
+    CompetenceCurriculumCallback,
     ForceCurriculumCallback,
     FrictionCurriculumCallback,
     MotorNoiseCurriculumCallback,
     SensorNoiseCurriculumCallback,
-    TerrainCurriculumCallbackV2,
+    TerrainCurriculumCallback,
 )
 from training.reward_functions.robust_walking_reward import (
     RewardConfig,
@@ -42,7 +43,7 @@ from training.reward_functions.robust_walking_reward import (
 # ============================================================================
 
 RUN_NAME = "robust_walk_v1"          # Folder name and file prefix for this run.
-TOTAL_STEPS = 10_000_000            # Total PPO training timesteps.
+TOTAL_STEPS = 10_000_000           # Total PPO training timesteps.
 
 BACKEND = "pybullet"                # Physics engine: "pybullet" or "mujoco".
 USE_GUI = False                     # True to watch training live, False for faster headless runs.
@@ -136,6 +137,14 @@ SENSOR_NOISE_SETTINGS = {
     "dof_vel_noise": 1.5,           # Joint velocity noise standard deviation [rad/s].
     "lin_vel_noise": 0.1,           # Base linear velocity noise [m/s].
     "ang_vel_noise": 0.2,           # Base angular velocity noise [rad/s].
+}
+
+COMPETENCE_SETTINGS = {
+    "progression_mode": "competence",   # Use competence instead of elapsed timesteps for curriculum progress.
+    "ema_alpha": 0.10,                  # EMA smoothing factor for the competence score.
+    "threshold": 0.70,                  # Competence EMA needed before unlocking harder difficulty.
+    "advance_step": 0.05,               # Increase shared curriculum progress by this amount when unlocked.
+    "min_episodes_between_advances": 10,# Wait this many episodes before the next difficulty increase.
 }
 
 
@@ -281,10 +290,21 @@ def create_env(cfg):
 
 
 def create_callbacks(cfg, env, paths):
-    terrain_callback = TerrainCurriculumCallbackV2(
+    competence_callback = CompetenceCurriculumCallback(
         config=cfg,
         env=env,
         total_timesteps=TOTAL_STEPS,
+        ema_alpha=COMPETENCE_SETTINGS["ema_alpha"],
+        threshold=COMPETENCE_SETTINGS["threshold"],
+        advance_step=COMPETENCE_SETTINGS["advance_step"],
+        min_episodes_between_advances=COMPETENCE_SETTINGS["min_episodes_between_advances"],
+        verbose=False,
+    )
+    terrain_callback = TerrainCurriculumCallback(
+        config=cfg,
+        env=env,
+        total_timesteps=TOTAL_STEPS,
+        progression_mode=COMPETENCE_SETTINGS["progression_mode"],
         verbose=CURRICULUM_VERBOSE,
         **TERRAIN_SETTINGS,
     )
@@ -292,6 +312,7 @@ def create_callbacks(cfg, env, paths):
         config=cfg,
         env=env,
         total_timesteps=TOTAL_STEPS,
+        progression_mode=COMPETENCE_SETTINGS["progression_mode"],
         verbose=CURRICULUM_VERBOSE,
         **FORCE_SETTINGS,
     )
@@ -299,6 +320,7 @@ def create_callbacks(cfg, env, paths):
         config=cfg,
         env=env,
         total_timesteps=TOTAL_STEPS,
+        progression_mode=COMPETENCE_SETTINGS["progression_mode"],
         verbose=CURRICULUM_VERBOSE,
         **FRICTION_SETTINGS,
     )
@@ -306,6 +328,7 @@ def create_callbacks(cfg, env, paths):
         config=cfg,
         env=env,
         total_timesteps=TOTAL_STEPS,
+        progression_mode=COMPETENCE_SETTINGS["progression_mode"],
         verbose=CURRICULUM_VERBOSE,
         **MOTOR_NOISE_SETTINGS,
     )
@@ -313,11 +336,13 @@ def create_callbacks(cfg, env, paths):
         config=cfg,
         env=env,
         total_timesteps=TOTAL_STEPS,
+        progression_mode=COMPETENCE_SETTINGS["progression_mode"],
         verbose=CURRICULUM_VERBOSE,
         **SENSOR_NOISE_SETTINGS,
     )
 
     callbacks = [
+        competence_callback,
         terrain_callback,
         force_callback,
         friction_callback,
@@ -394,6 +419,7 @@ def main():
         print(f"Timed snapshots: every {TIMED_SNAPSHOT_SECONDS} real seconds")
         print("Watch in the dashboard: rollout/ep_rew_mean, rollout/ep_len_mean, "
               "train/approx_kl, train/value_loss, train/explained_variance, "
+              "competence/ema, competence/progress, "
               "curriculum/terrain_z_max, curriculum/push_velocity, "
               "curriculum/friction_value, curriculum/motor_noise_std, "
               "curriculum/sensor_noise_scale")

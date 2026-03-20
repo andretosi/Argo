@@ -1,64 +1,15 @@
-"""
-Sensor Noise Curriculum Callback
-================================
-
-Atomic callback for sensor noise curriculum.
-Gradually increases observation noise during training for sim-to-real transfer.
-
-Usage:
-    from training.callbacks import SensorNoiseCurriculumCallback
-    from spotmicro.tools.config import Config
-
-    callback = SensorNoiseCurriculumCallback(
-        config=Config(),
-        env=env,
-        total_timesteps=1_000_000,
-        noise_scale_initial=0.0,
-        noise_scale_final=1.0,
-    )
-"""
+"""Observation noise curriculum callback."""
 
 import numpy as np
 from spotmicro.tools.config import Config
 from spotmicro.tools.configurable import configurable
 
-from training.callbacks.base_curriculum import BaseCurriculumCallback
-from training.utils.noise import SensorNoise
+from training.callbacks.curriculum_base import BaseCurriculumCallback
 
 
 @configurable
 class SensorNoiseCurriculumCallback(BaseCurriculumCallback):
-    """
-    Atomic callback for sensor noise curriculum.
-
-    Wraps observations with progressively increasing noise levels.
-    Uses SensorNoise utility internally with scaling factor.
-
-    Parameters
-    ----------
-    config : Config
-        Central config registry
-    env : SpotmicroEnv
-        Training environment
-    total_timesteps : int
-        Estimated total training timesteps
-    noise_scale_initial : float
-        Starting noise scale multiplier (default: 0.0)
-    noise_scale_final : float
-        Final noise scale multiplier (default: 1.0)
-    dof_pos_noise : float
-        Base joint position noise std [rad] (default: 0.01)
-    dof_vel_noise : float
-        Base joint velocity noise std [rad/s] (default: 1.5)
-    lin_vel_noise : float
-        Base linear velocity noise std [m/s] (default: 0.1)
-    ang_vel_noise : float
-        Base angular velocity noise std [rad/s] (default: 0.2)
-    gravity_noise : float
-        Base gravity vector noise std (default: 0.05)
-    height_noise : float
-        Base height noise std [m] (default: 0.02)
-    """
+    """Scale observation noise up as training progresses."""
 
     def __init__(
         self,
@@ -67,6 +18,7 @@ class SensorNoiseCurriculumCallback(BaseCurriculumCallback):
         total_timesteps: int = 1_000_000,
         schedule: str = "linear",
         warmup_ratio: float = 0.05,
+        progression_mode: str = "time",
         noise_scale_initial: float = 0.0,
         noise_scale_final: float = 1.0,
         dof_pos_noise: float = 0.01,
@@ -85,6 +37,7 @@ class SensorNoiseCurriculumCallback(BaseCurriculumCallback):
             total_timesteps=total_timesteps,
             schedule=schedule,
             warmup_ratio=warmup_ratio,
+            progression_mode=progression_mode,
             verbose=verbose,
         )
 

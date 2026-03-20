@@ -1,61 +1,15 @@
-"""
-Motor Noise Curriculum Callback
-===============================
-
-Atomic callback for motor/actuator noise curriculum.
-Gradually increases motor noise during training for sim-to-real transfer.
-
-This callback adds noise to the actions before they are sent to the motors,
-simulating imperfect actuators.
-
-Usage:
-    from training.callbacks import MotorNoiseCurriculumCallback
-    from spotmicro.tools.config import Config
-
-    callback = MotorNoiseCurriculumCallback(
-        config=Config(),
-        env=env,
-        total_timesteps=1_000_000,
-        noise_initial=0.0,
-        noise_final=0.05,
-    )
-"""
+"""Motor command noise curriculum callback."""
 
 import numpy as np
-import gymnasium as gym
 from spotmicro.tools.config import Config
 from spotmicro.tools.configurable import configurable
 
-from training.callbacks.base_curriculum import BaseCurriculumCallback
+from training.callbacks.curriculum_base import BaseCurriculumCallback
 
 
 @configurable
 class MotorNoiseCurriculumCallback(BaseCurriculumCallback):
-    """
-    Atomic callback for motor/actuator noise curriculum.
-
-    Adds Gaussian noise to motor commands with progressively increasing
-    standard deviation.
-    At start: no noise (noise_initial)
-    At end: full noise (noise_final)
-
-    The noise is injected by wrapping the environment's step function.
-
-    Parameters
-    ----------
-    config : Config
-        Central config registry
-    env : SpotmicroEnv
-        Training environment
-    total_timesteps : int
-        Estimated total training timesteps
-    noise_initial : float
-        Starting noise std in radians (default: 0.0)
-    noise_final : float
-        Final noise std in radians (default: 0.05)
-    noise_type : str
-        Type of noise: "gaussian" or "uniform" (default: "gaussian")
-    """
+    """Increase action noise gradually to harden the controller."""
 
     def __init__(
         self,
@@ -64,6 +18,7 @@ class MotorNoiseCurriculumCallback(BaseCurriculumCallback):
         total_timesteps: int = 1_000_000,
         schedule: str = "linear",
         warmup_ratio: float = 0.05,
+        progression_mode: str = "time",
         noise_initial: float = 0.0,
         noise_final: float = 0.05,
         noise_type: str = "gaussian",
@@ -77,6 +32,7 @@ class MotorNoiseCurriculumCallback(BaseCurriculumCallback):
             total_timesteps=total_timesteps,
             schedule=schedule,
             warmup_ratio=warmup_ratio,
+            progression_mode=progression_mode,
             verbose=verbose,
         )
 

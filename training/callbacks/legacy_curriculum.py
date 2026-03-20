@@ -1,37 +1,10 @@
-"""
-Unified Curriculum Callback for Robust Training
-================================================
-
-Implements smooth curriculum learning for all domain randomization aspects:
-- Terrain difficulty (z_max)
-- Push force magnitude
-- Friction range variation
-
-All parameters are @configurable for easy saving/loading.
-
-Usage:
-    from training.callbacks.curriculum_callback import CurriculumCallback
-    from spotmicro.tools.config import Config
-
-    cfg = Config()
-    callback = CurriculumCallback(
-        config=cfg,
-        env=env,
-        total_timesteps=1_000_000,
-        # All params start easy and ramp up
-        terrain_z_max_initial=0.02,
-        terrain_z_max_final=0.3,
-        push_vel_initial=0.1,
-        push_vel_final=1.5,
-    )
-
-    model.learn(total_timesteps=1_000_000, callback=callback)
-"""
+"""Legacy all-in-one curriculum callback kept for backward compatibility."""
 
 import numpy as np
-from dataclasses import dataclass
-from stable_baselines3.common.callbacks import BaseCallback
 from typing import TYPE_CHECKING
+from dataclasses import dataclass
+
+from stable_baselines3.common.callbacks import BaseCallback
 
 from spotmicro.tools.config import Config
 from spotmicro.tools.configurable import configurable

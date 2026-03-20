@@ -1,38 +1,9 @@
-"""
-Terrain Change Callback for Stable-Baselines3
-==============================================
+"""Legacy terrain callbacks kept for backward compatibility."""
 
-This callback automatically changes the terrain during training to improve
-policy generalization. The robot learns to walk on different terrains,
-making the policy more robust.
-
-Usage:
-------
-    from training.callbacks.terrain_callback import TerrainChangeCallback
-    from spotmicro.tools.TerrainTools import Heightmap
-
-    callback = TerrainChangeCallback(
-        env=env,
-        change_every_n_episodes=50,      # Change terrain every 50 episodes
-        terrain_generator=Heightmap.from_noise,
-        generator_kwargs={"size": 256, "z_max": 0.3}
-    )
-
-    model.learn(total_timesteps=1_000_000, callback=callback)
-
-Parameters:
------------
-- change_every_n_episodes: How often to change terrain (default: 50)
-- terrain_generator: Function that generates heightmap (e.g., Heightmap.from_noise)
-- generator_kwargs: Arguments passed to the generator
-- scale: Terrain scale [x, y, z] (default: [0.02, 0.02, 1.0])
-- origin: Terrain origin [x, y, z] (default: [0, 0, 0])
-- verbose: Print when terrain changes (default: True)
-"""
+from typing import Any, Callable, Dict, Optional
 
 import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
-from typing import Callable, Dict, Any, Optional
 
 
 class TerrainChangeCallback(BaseCallback):

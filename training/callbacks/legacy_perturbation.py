@@ -1,23 +1,4 @@
-"""
-Perturbation Callback for Stable-Baselines3
-============================================
-
-Applies external force perturbations during training for robustness.
-
-Usage:
-    from training.callbacks.perturbation_callback import PerturbationCallback
-    from spotmicro.tools.config import Config
-
-    cfg = Config()
-    callback = PerturbationCallback(
-        config=cfg,
-        env=env,
-        push_interval_s=15.0,
-        max_push_vel_xy=1.0,
-    )
-
-    model.learn(total_timesteps=1_000_000, callback=callback)
-"""
+"""Legacy perturbation callback kept for backward compatibility."""
 
 import numpy as np
 from stable_baselines3.common.callbacks import BaseCallback
