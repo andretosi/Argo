@@ -2,18 +2,10 @@
 
 from spotmicro.devices.device import Device
 from spotmicro.agent.input import Input
-import pygame
-import numpy as np
 
-'''This device reads inputs from a common gamepad.
-this program makes use of the Pygame libray to read 
-the position of the joysticks and normalize them to
-communicate the velocities and transmit them in the format:
-    left joystick [vertical]    -> vel_x {speed in the march direction}
-    left joystick [horizontal]  -> vel_y {speed in the perpendicoular direction}
-    left joystick [horizontal]  -> vel_w {angoular velocity with regard to the yaw angle}
-'''
+
 class Joystick(Device):
+<<<<<<< HEAD
 <<<<<<< HEAD
     def __init__(self):
         raise NotImplementedError("Joystick device is not implemented yet")
@@ -66,3 +58,7 @@ class Joystick(Device):
     def reset(self) -> None:
         self._input_vector = np.array([0.00, 0.00, 0.00], dtype=np.float32)
 >>>>>>> f68f097 (new uppdated joystick based on pygame)
+=======
+    def __init__(self):
+        raise NotImplementedError("Joystick device is not implemented yet")
+>>>>>>> dd1cb2c (Revert "Merge branch 'mirko-controller' of github.com:andretosi/aea_spot_micro into tracker_fixes")
