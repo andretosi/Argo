@@ -14,9 +14,9 @@ if grandparent_dir not in sys.path:
     sys.path.insert(0, grandparent_dir)
 
 from reward_function import reward_function, RewardState
-from src.spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
-from src.spotmicro.devices.fixed_controller import FixedController
-from src.spotmicro.tools.config import Config
+from spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
+from spotmicro.devices.fixed_controller import FixedController
+from spotmicro.tools.config import Config
 
 from stable_baselines3.common.callbacks import CheckpointCallback
 from stable_baselines3.common.env_checker import check_env

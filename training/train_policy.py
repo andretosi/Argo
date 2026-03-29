@@ -3,8 +3,14 @@ from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.callbacks import CheckpointCallback
 from pathlib import Path
 
+<<<<<<< HEAD
 from src.spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
 from src.spotmicro import RandomController
+=======
+from spotmicro.env.spotmicro_env import SpotmicroEnv
+from spotmicro.devices.random_controller import RandomController
+from spotmicro.tools.config import Config
+>>>>>>> 2e39146 (moved from src.spotmicro to spotmicro. Fucking install the package before changing everything, will ya?)
 from reward_functions.standing_reward_function import reward_function, RewardState
 
 TOTAL_STEPS = 5_000_000

@@ -1,7 +1,7 @@
 import pybullet
 import numpy as np
 # Importa la classe SpotmicroEnv, che definisce l'ambiente di simulazione del robot.
-from src.spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
+from spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
 
 # classe per memorizzare lo stato tra un timestep e l'altro
 class RewardState:

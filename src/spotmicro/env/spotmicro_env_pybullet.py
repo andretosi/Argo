@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 import inspect, os, pickle, warnings
 import time
 
-from src.spotmicro.tools.config import Config
-from src.spotmicro.tools.configurable import configurable
-from src.spotmicro.agent.agent_pybullet import Agent
-from src.spotmicro.env.terrain import Terrain
-from src.spotmicro.devices.device import Device
-from src.spotmicro.tools.tracker import Tracker
+from spotmicro.tools.config import Config
+from spotmicro.tools.configurable import configurable
+from spotmicro.agent.agent_pybullet import Agent
+from spotmicro.env.terrain import Terrain
+from spotmicro.devices.device import Device
+from spotmicro.tools.tracker import Tracker
 
 @configurable
 class SpotmicroEnv(gym.Env):

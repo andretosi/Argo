@@ -2,8 +2,9 @@ import time
 from stable_baselines3 import PPO
 from pathlib import Path
 
-from src.spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
+from spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
 from reward_functions.walking_reward_function import reward_function, RewardState
+<<<<<<< HEAD
 <<<<<<< HEAD
 #from spotmicro.devices.random_controller import RandomController
 from spotmicro.devices.joystick_device import Joystick
@@ -13,6 +14,10 @@ from spotmicro.tools.config import Config
 from src.spotmicro import RandomController
 from src.spotmicro.tools.config import Config
 >>>>>>> ab1736d (add mujoco and env / agent interface)
+=======
+from spotmicro.devices.random_controller import RandomController
+from spotmicro.tools.config import Config
+>>>>>>> 2e39146 (moved from src.spotmicro to spotmicro. Fucking install the package before changing everything, will ya?)
 
 run = "prova2"
 DATA_DIR =  Path("data") / f"{run}_results"

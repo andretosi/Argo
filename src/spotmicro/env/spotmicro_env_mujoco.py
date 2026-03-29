@@ -6,11 +6,11 @@ from collections import deque
 import matplotlib.pyplot as plt
 import inspect, os, pickle, warnings
 
-from src.spotmicro.tools.config import Config
-from src.spotmicro.tools.configurable import configurable
-from src.spotmicro.agent.agent_mujoco import Agent, quaternion_to_matrix
-from src.spotmicro.devices.device import Device
-from src.spotmicro.tools.tracker import Tracker
+from spotmicro.tools.config import Config
+from spotmicro.tools.configurable import configurable
+from spotmicro.agent.agent_mujoco import Agent, quaternion_to_matrix
+from spotmicro.devices.device import Device
+from spotmicro.tools.tracker import Tracker
 
 @configurable
 class SpotmicroEnv(gym.Env):

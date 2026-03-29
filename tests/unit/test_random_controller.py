@@ -2,8 +2,8 @@ import unittest
 from unittest.mock import patch
 import numpy as np
 
-from src.spotmicro.tools.config import Config
-from src.spotmicro import (
+from spotmicro.tools.config import Config
+from spotmicro import (
     RandomController,
     BaseState,
 )

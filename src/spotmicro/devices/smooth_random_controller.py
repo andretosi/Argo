@@ -1,6 +1,9 @@
 #Assignee: filippo
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2e39146 (moved from src.spotmicro to spotmicro. Fucking install the package before changing everything, will ya?)
 from spotmicro.devices.device import Device
 from spotmicro.agent.input import Input
 import numpy as np

@@ -1,6 +1,6 @@
 #Assignee mirko
 
-from src.spotmicro.devices.device import Device
+from spotmicro.devices.device import Device
 
 
 class Joystick(Device):

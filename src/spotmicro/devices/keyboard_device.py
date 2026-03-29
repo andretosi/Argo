@@ -1,6 +1,7 @@
 #Assignee: virgina
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 #class Keyboard(Device):
 #    def __init__(self):
@@ -17,6 +18,9 @@ from spotmicro.devices.device import Device
 from spotmicro.agent.input import Input
 =======
 from src.spotmicro.devices.device import Device
+=======
+from spotmicro.devices.device import Device
+>>>>>>> 2e39146 (moved from src.spotmicro to spotmicro. Fucking install the package before changing everything, will ya?)
 
 >>>>>>> ab1736d (add mujoco and env / agent interface)
 

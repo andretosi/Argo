@@ -1,8 +1,8 @@
 #Author: Nico
-from src.spotmicro.devices.device import Device
-from src.spotmicro.agent.input import Input
-from src.spotmicro.tools.config import Config
-from src.spotmicro.tools.configurable import configurable
+from spotmicro.devices.device import Device
+from spotmicro.agent.input import Input
+from spotmicro.tools.config import Config
+from spotmicro.tools.configurable import configurable
 import numpy as np
 import random
 

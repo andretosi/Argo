@@ -1,5 +1,5 @@
-from src.spotmicro.agent.input import Input
-from src.spotmicro.tools.tracker_renderer import TrackerRenderer
+from spotmicro.agent.input import Input
+from spotmicro.tools.tracker_renderer import TrackerRenderer
 
 #TODO -> specialize for the different backends?
 

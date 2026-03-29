@@ -2,7 +2,7 @@ import numpy as np
 import pybullet
 from scipy.ndimage import gaussian_filter
 
-from src.spotmicro.tools.config import Config
+from spotmicro.tools.config import Config
 
 class Terrain:
     def __init__(self, physics_client, config: Config):

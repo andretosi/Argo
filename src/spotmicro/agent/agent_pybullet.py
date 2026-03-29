@@ -4,10 +4,10 @@ from dataclasses import dataclass, field
 from collections import deque
 from importlib.resources import files
 
-from src.spotmicro.tools.config import Config
-from src.spotmicro.tools.configurable import configurable
-from src.spotmicro.devices.device import Device
-from src.spotmicro.agent.controller import Controller
+from spotmicro.tools.config import Config
+from spotmicro.tools.configurable import configurable
+from spotmicro.devices.device import Device
+from spotmicro.agent.controller import Controller
 
 
 #questa classe contiene soltanto dei dati
@@ -192,7 +192,7 @@ class Agent:
         self._joint_history = deque(maxlen=self.joint_history_maxlen) # It will hold tuples with np.ndarray of joint_positions and joint_velocities
 
         # <-- PHYSICS_ENV how to load the model of an agent in the sim? need a dedicated method?-->
-        urdf_path = str(files("src.spotmicro.data").joinpath("spotmicroai.urdf"))
+        urdf_path = str(files("spotmicro.data").joinpath("spotmicroai.urdf"))
         # --- Load URDF ---
         self._robot_id = pybullet.loadURDF(
             urdf_path,

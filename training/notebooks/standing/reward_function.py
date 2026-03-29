@@ -1,5 +1,5 @@
 import numpy as np
-from src.spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
+from spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
 
 class RewardState:
     def __init__(self):
