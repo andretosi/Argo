@@ -10,7 +10,9 @@ __pycache__
 policy_training/logs
 *.png
 *.txt
-dockerfile
+docker*
+entrypoint.sh
 logs
-.egg-info
+*.egg-info
 .python-version
+<q  \d5
