@@ -1,31 +1,18 @@
 import time
-import numpy as np
 from stable_baselines3 import PPO
 
-import sys
-import os
-
-# Start from the current working directory (where notebook is)
-cwd = os.getcwd()
-
-# Go two levels up (to the "grandparent")
-grandparent_dir = os.path.abspath(os.path.join(cwd, "..", ".."))
-
-# Add to sys.path if not already there
-if grandparent_dir not in sys.path:
-    sys.path.insert(0, grandparent_dir)
-
-from SpotmicroEnv import SpotmicroEnv
+from spotmicro.env.spotmicro_env import SpotmicroEnv
+from spotmicro.physics.factory import create_backend
+from spotmicro.devices.random_controller import RandomController
+from spotmicro.tools.config import Config
 from reward_function import reward_function, RewardState
 from stable_baselines3.common.callbacks import CheckpointCallback
 from stable_baselines3.common.env_checker import check_env
 from stable_baselines3.common.logger import configure
 
 # ========= CONFIG ==========
-TOTAL_STEPS = 10_000_000
-run = "walk"
-base="trot"
-
+TOTAL_STEPS = 20_000_000
+run = "walkMJ"
 log_dir = f"./logs/{run}"
 
 def clipped_linear_schedule(initial_value, min_value=1e-5):
@@ -34,30 +21,45 @@ def clipped_linear_schedule(initial_value, min_value=1e-5):
     return schedule
 
 checkpoint_callback = CheckpointCallback(
-    save_freq=TOTAL_STEPS // 10,
+    save_freq=TOTAL_STEPS // 40,
     save_path=f"{run}_checkpoints",
     name_prefix=f"ppo_{run}"
 )
 
 # ========= ENV ==========
+cfg = Config()
+dev = RandomController(cfg, p_base2still=1.0, p_base2turn=0.0, p_base2walk=0.0) 
+backend = create_backend("mujoco", use_gui=False)
 env = SpotmicroEnv(
+    backend,
+    dev,
+    cfg,
+    reward_function,
+    RewardState(),
     use_gui=False,
-    reward_fn=reward_function, 
-    reward_state=RewardState(),
-    src_save_file=f"{base}.pkl",
-    dest_save_file=f"{run}.pkl"
+    survival_reward=15,
 )
 check_env(env, warn=True)
+cfg.save("configs/slow_start.yaml")
+
 
 # ========= MODEL ==========
-model = PPO.load(f"ppo_{base}")
-model.set_env(env)
-model.tensorboard_log = log_dir
+model = PPO(
+    "MlpPolicy", 
+    env,
+    verbose=1,   # no default printouts
+    learning_rate=clipped_linear_schedule(3e-4),
+    ent_coef=0.001,
+    clip_range=0.1,
+    tensorboard_log=log_dir,
+    device = 'cpu'
+)
 
 # Custom logger: ONLY csv + tensorboard (no stdout table)
 new_logger = configure(log_dir, ["csv", "tensorboard"])
 model.set_logger(new_logger)
 
+# ========= TRAIN ==========
 model.learn(
     total_timesteps=TOTAL_STEPS,
     reset_num_timesteps=False,

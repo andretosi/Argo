@@ -1,4 +1,3 @@
-import pybullet
 import numpy as np
 # Importa la classe SpotmicroEnv, che definisce l'ambiente di simulazione del robot.
 from spotmicro.env.spotmicro_env_mujoco import SpotmicroEnv
@@ -36,12 +35,11 @@ def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]
 
     
     # Calcola l'errore quadratico percentuale della velocità lineare rispetto a quella target.
-    lin_vel_sq_perc_error = (np.linalg.norm(env.target_lin_velocity - env.agent.state.linear_velocity)/
-                             np.linalg.norm(env.target_lin_velocity) + 1e-6)** 2
+    lin_vel_sq_perc_error = (np.linalg.norm(env.agent.controller.input.as_array[:2] - env.agent.state.linear_velocity[:2])/
+                             np.linalg.norm(env.agent.controller.input.as_array[:2]) + 1e-5)** 2
 
     # Calcola l'errore della velocità angolare normalizzato rispetto alla massima velocità angolare possibile.
-    ang_vel_error = np.linalg.norm((env.target_ang_velocity - env.agent.state.angular_velocity) / 
-                               env.config.max_angular_velocity) ** 2 # CHANGED
+    ang_vel_error = ((env.agent.controller.input.w - env.agent.state.angular_velocity[2]) / env.agent.max_angular_velocity) ** 2 # CHANGED
     # Su questo ci devo riflettere, noi diamo anche indicazioni rotazionali? Che indicazioni sulla rotazione diamo?
     # In generale come stabiliamo le velocità target? Dove sono decise? Da chi?
 
@@ -56,7 +54,7 @@ def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]
     # lungo l'asse verticale del robot. Questo approccio è robusto su terreni
     # accidentati perché non dipende dall'altezza assoluta (Z globale).
     body_to_feet_height = env.agent.get_body_to_feet_height_projected()
-    height_penalty = (body_to_feet_height - env.config.target_body_to_feet_height) ** 2
+    height_penalty = (body_to_feet_height - env.agent.target_body_to_feet_height) ** 2
 
 
     # Calcola la variazione media dell'azione rispetto all'azione precedente per penalizzare movimenti bruschi.
@@ -69,12 +67,7 @@ def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]
     stabilization_penalty = roll ** 2 + pitch ** 2
     # Penso vada bene, unico dubbio, il robot non dovrebbe impararlo da solo?
 
-    # Calcola la componente della velocità perpendicolare alla direzione target, per penalizzare il "drift" (deriva).
-    perp_velocity = env.agent.state.linear_velocity - (
-                    (np.dot(env.agent.state.linear_velocity, env.target_lin_velocity)/
-                    (np.linalg.norm(env.target_lin_velocity) ** 2)) * env.target_lin_velocity
-                    )
-    
+
     # Calcola lo sforzo normalizzato totale dei motori, per penalizzare un consumo eccessivo di energia.
     total_normalized_effort = np.sum([(j.effort / j.max_torque) ** 2 for j in env.agent.motor_joints]) / len(env.agent.motor_joints)
     # Come è calcolato j.effort? da dove viene? Dalla simulazione o lo abbiamo calcolato noi
@@ -85,18 +78,16 @@ def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]
     # non capisco il senso della tolerance
     
     # Ricompensa per la velocità lineare, che decresce quadraticamente con l'errore e limitata inferiormente.
+    # In altre parole, l'agente ha un reward=1 se segue eprfettamente la velocità, altrimenti questa decade quadraticamente fino ad un valore minimo di -0.5 (ossia una penalità). Il parametro di toleranze determina l'ampiezza della parabola, ossia quanto preciso vogliamo che sia il tracciamento
     lin_vel_reward = max(1.0 - ((lin_vel_sq_perc_error / tolerance) **2), -0.5)
-    # non capisco il senso di questa ricompensa. Perchè calcolata in questo modo?
-    # non abbiamo già una velocità target da raggiungere?
+
     
-    # Penalità per la deriva laterale, basata sulla norma della velocità perpendicolare.
-    drift_penalty = np.linalg.norm(perp_velocity) ** 2
 
     # Calcola lo spostamento della base del robot rispetto al timestep precedente.
     delta_pos = env.agent.state.base_position - env.reward_state.prev_base_position
     
     # Calcola il progresso nella direzione della velocità target.
-    progress = np.dot(delta_pos, env.target_lin_velocity) / (np.linalg.norm(env.target_lin_velocity)+1e-6)
+    progress = np.dot(delta_pos[:2], env.agent.controller.input.as_array[:2]) / (np.linalg.norm(env.agent.controller.input.as_array[:2])+1e-6)
     
     # Limita il progresso per ogni step per evitare valori troppo grandi e stabilizzare l'apprendimento.
     progress = np.clip(progress / env.sim_frequency, -0.5, 0.5)
@@ -106,9 +97,8 @@ def reward_function(env: SpotmicroEnv, action: np.ndarray) -> tuple[float, dict]
     # Dizionario che raccoglie tutte le componenti della reward con i rispettivi pesi.
     reward_dict = {
         "linear_vel_reward": 12 * lin_vel_reward,
-        "progress_reward": 1 * progress,
+        "progress_reward": 1.5 - fade_in(env.num_steps, 100_000) * progress, #1.5 ->0.5
         "angular_vel_penalty": -5 * ang_vel_error,
-        "drift_penalty": -6 * drift_penalty,
         "action_rate_penalty": -2 * action_rate,
         "height_penalty": -3 * min(height_penalty, 1.0),
         "stabilization_penalty": -3 * min(stabilization_penalty, 1.0),
