@@ -96,7 +96,7 @@ class Agent:
                  joint_max_torque=6.5, left_shoulder_hp=-0.0502, right_shoulder_hp=0.0502, front_legs_hp=-0.55, rear_legs_hp=-0.5, front_feet_hp=1.1, rear_feet_hp=1,
                  shoulder_deadzone=0.07, leg_deadzone=0.075, foot_deadzone=0.075, homing_pitch=-0.065,
                  max_joint_velocity=10, max_norm_height=0.235, max_linear_velocity=2.23, max_forward_linear_velocity=2.0, max_lateral_linear_velocity=1.0, max_angular_velocity=5,
-                 joint_history_maxlen=5
+                 joint_history_maxlen=5, target_body_to_feet_height=0.21
             ):
         
         self.config = config
@@ -113,6 +113,7 @@ class Agent:
         self.max_lateral_linear_velocity = max_lateral_linear_velocity
         self.max_angular_velocity = max_angular_velocity
         self.joint_history_maxlen = joint_history_maxlen
+        self.target_body_to_feet_height = target_body_to_feet_height
 
         self.ORIENTATION = [0, self.homing_pitch, np.pi]
 

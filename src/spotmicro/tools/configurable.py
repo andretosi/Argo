@@ -52,7 +52,7 @@ def configurable(cls):
         self.config = bound.arguments["config"]
 
         if not isinstance(bound.arguments["config"], Config):
-            raise TypeError(f"config parameter must be of Config type, {type(self.config)}was given")
+            raise TypeError(f"config parameter must be of Config type, {type(self.config)} was given")
         
         #extract params and their runtime value
         overridden_params = {

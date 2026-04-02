@@ -24,7 +24,11 @@ logs
 =======
 >>>>>>> 0d38262 (trained new sim2sim to jump)
 .ipynb_checkpoints/
+<<<<<<< HEAD
 >>>>>>> e5f89de (gitignore update)
 =======
 .idea/
 >>>>>>> ab1736d (add mujoco and env / agent interface)
+=======
+automated_training
+>>>>>>> 66a7325 (modified for training)

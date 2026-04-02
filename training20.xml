@@ -1,0 +1,224 @@
+<mujoco model="differential_drive_robot">
+  <default>
+    <default class="robot">
+      <default class="motor">
+        <joint />
+        <motor />
+      </default>
+      <default class="visual">
+        <geom material="visualgeom" contype="0" conaffinity="0" group="2" />
+      </default>
+      <default class="collision">
+        <geom material="collision_material" condim="3" contype="1" conaffinity="1" priority="1" group="1" solref="0.005 1" solimp="0.99 0.999 1e-05" friction="1 0.01 0.01" />
+      </default>
+    </default>
+  </default>
+
+  <option timestep="0.0041" gravity="0 0 -9.81"/>
+  <compiler angle="radian" />
+  ${}
+
+  <asset>
+    <material name="black" rgba="0.0 0.0 0.0 1.0" />
+    <material name="blue" rgba="0.0 0.0 0.8 1.0" />
+    <material name="green" rgba="0.0 0.8 0.0 1.0" />
+    <material name="grey" rgba="0.2 0.2 0.2 1.0" />
+    <material name="orange" rgba="1.0 0.4235294117647059 0.0392156862745098 1.0" />
+    <material name="brown" rgba="0.8705882352941177 0.8117647058823529 0.7647058823529411 1.0" />
+    <material name="red" rgba="0.8 0.0 0.0 1.0" />
+    <material name="white" rgba="1.0 1.0 1.0 1.0" />
+    <material name="yellow" rgba="0.92 0.83 0.0 1" />
+    <material name="default_material" rgba="0.7 0.7 0.7 1" />
+    <material name="collision_material" rgba="1.0 0.28 0.1 0.9" />
+    <mesh name="mainbody.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/mainbody.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="backpart.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/backpart.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="frontpart.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/frontpart.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="lshoulder.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/lshoulder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="larm.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="larm_cover.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/larm_cover.stl" scale="0.001 0.001 0.001" />
+    <mesh name="lfoot.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/lfoot.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="foot.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/foot.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="rshoulder.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/rshoulder.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="rarm.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="rarm_cover.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/rarm_cover.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="rfoot.stl" file="../../../spot_micro/install/mobile_robot/share/mobile_robot/meshes/rfoot.stl" scale="0.001 0.001 0.001"/>
+  </asset>
+
+  <worldbody>
+    <geom name="floor" type="plane" pos="0 0 0" size="10 10 0.1" rgba="0.5 0.5 0.5 1" />
+    <light directional="true" diffuse=".8 .8 .8" specular=".2 .2 .2" pos="0 0 5" dir="0 0 -1"/>
+    <body name="base_link" pos="0.00000000 0.00000000 0.25500000" quat="1 0 0 0" childclass="robot">
+      <freejoint name="floating_base" />
+      <geom name="base_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="box" size="0.07 0.055 0.035" class="collision" />
+      <geom name="base_link_visual" pos="-0.045 -0.060 -0.015" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="mainbody.stl" class="visual" />
+      <body name="rear_link" pos="0 0 0" quat="1 0 0 0">
+        <inertial mass="0.20" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+        <geom name="rear_link_collision" pos="0.135 0 0" quat="1.0 0.0 0.0 0.0" type="box" size="0.02 0.055 0.035" class="collision" />
+        <geom name="rear_link_visual" pos="-0.040 -0.060 -0.0140" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="backpart.stl" class="visual" />
+      </body>
+      <body name="front_link" pos="0 0 0" quat="1 0 0 0">
+        <inertial mass="0.20" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+        <geom name="front_link_collision" pos="-0.145 0 0" quat="1.0 0.0 0.0 0.0" type="box" size="0.029 0.055 0.035" class="collision" />
+        <geom name="front_link_visual" pos="-0.040 -0.060 -0.0140" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="frontpart.stl" class="visual" />
+      </body>
+      <body name="front_left_shoulder_link" pos="-0.093 -0.036 0" quat="1.0 0.0 0.0 0.0">
+        <joint name="front_left_shoulder" type="hinge" ref="0.0" class="motor" range="-0.548 0.548" axis="1 0 0" />
+        <inertial mass="0.10" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+        <geom name="front_left_shoulder_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="box" size="0.022 0.019 0.035" class="collision" />
+        <geom name="front_left_shoulder_link_visual" pos="-0.135 -0.02 -0.01" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="lshoulder.stl" class="visual" />
+        <body name="front_left_leg_link" pos="0 -0.052 0" quat="1.0 0.0 0.0 0.0">
+          <joint name="front_left_leg" type="hinge" ref="0.0" class="motor" range="-2.666 1.548" axis="0 1 0" />
+          <inertial mass="0.15" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+          <geom name="front_left_leg_link_collision" pos="0.0 0.0 -0.050" quat="1.0 0.0 0.0 0.0" type="box" size="0.014 0.018 0.06" class="collision" />
+          <geom name="front_left_leg_link_visual" pos="-0.125 0.04 -0.02" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="larm.stl" class="visual" />
+          <body name="front_left_leg_link_cover" pos="0 0 0" quat="1.0 0.0 0.0 0.0">
+            <geom name="front_left_leg_link_cover_visual" pos="-0.125 0.04 -0.02" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="larm_cover.stl" class="visual" />
+          </body>
+          <body name="front_left_foot_link" pos="-0.01 0 -0.12" quat="1.0 0.0 0.0 0.0">
+            <joint name="front_left_foot" type="hinge" ref="0.0" class="motor" range="-0.1 2.59" axis="0 1 0" />
+            <inertial mass="0.1" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+            <geom name="front_left_foot_link_collision" pos="0.0 0.0 -0.050" quat="1.0 0.0 0.0 0.0" type="box" size="0.013 0.01 0.0575" class="collision" />
+            <geom name="front_left_foot_link_visual" pos="-0.120 0.04 0.1" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="lfoot.stl" class="visual" />
+            <body name="front_left_toe_link" pos="0 0 -0.115" quat="1.0 0.0 0.0 0.0">
+              <inertial mass="0.05" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+              <geom name="front_left_toe_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.02" class="collision" />
+              <geom name="front_left_toe_link_visual" pos="0 -0.01 0" quat="0.9800566431496228 0.0 -0.1987183338755962 0.0" material="default_material" type="mesh" mesh="foot.stl" class="visual" />
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="front_right_shoulder_link" pos="-0.093 0.036 0" quat="1.0 0.0 0.0 0.0">
+        <joint name="front_right_shoulder" type="hinge" ref="0.0" class="motor" range="-0.548 0.548" axis="1 0 0" />
+        <inertial mass="0.10" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+        <geom name="front_right_shoulder_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="box" size="0.022 0.019 0.035" class="collision" />
+        <geom name="front_right_shoulder_link_visual" pos="-0.135 -0.09 -0.01" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="rshoulder.stl" class="visual" />
+        <body name="front_right_leg_link" pos="0 0.052 0" quat="1.0 0.0 0.0 0.0">
+          <joint name="front_right_leg" type="hinge" ref="0.0" class="motor" range="-2.666 1.548" axis="0 1 0" />
+          <inertial mass="0.15" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+          <geom name="front_right_leg_link_collision" pos="0.0 0.0 -0.050" quat="1.0 0.0 0.0 0.0" type="box" size="0.014 0.018 0.06" class="collision" />
+          <geom name="front_right_leg_link_visual" pos="-0.125 -0.15 -0.02" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="rarm.stl" class="visual" />
+          <body name="front_right_leg_link_cover" pos="0 0 0" quat="1.0 0.0 0.0 0.0">
+            <geom name="front_right_leg_link_cover_visual" pos="-0.125 -0.15 -0.02" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="rarm_cover.stl"  class="visual" />
+          </body>
+          <body name="front_right_foot_link" pos="-0.01 0 -0.12" quat="1.0 0.0 0.0 0.0">
+            <joint name="front_right_foot" type="hinge" ref="0.0" class="motor" range="-0.1 2.59" axis="0 1 0" />
+            <inertial mass="0.1" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+            <geom name="front_right_foot_link_collision" pos="0.0 0.0 -0.050" quat="1.0 0.0 0.0 0.0" type="box" size="0.013 0.01 0.0575" class="collision" />
+            <geom name="front_right_foot_link_visual" pos="-0.120 -0.15 0.1" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="rfoot.stl"  class="visual" />
+            <body name="front_right_toe_link" pos="0 0 -0.115" quat="1.0 0.0 0.0 0.0">
+              <inertial mass="0.05" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+              <geom name="front_right_toe_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.02" class="collision" />
+              <geom name="front_right_toe_link_visual" pos="0 -0.01 0" quat="0.9800566431496228 0.0 -0.1987183338755962 0.0" material="default_material" type="mesh" mesh="foot.stl"  class="visual" />
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="rear_left_shoulder_link" pos="0.093 -0.036 0" quat="1.0 0.0 0.0 0.0">
+        <joint name="rear_left_shoulder" type="hinge" ref="0.0" class="motor" range="-0.548 0.548" axis="1 0 0" />
+        <inertial mass="0.10" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+        <geom name="rear_left_shoulder_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="box" size="0.022 0.019 0.035" class="collision" />
+        <geom name="rear_left_shoulder_link_visual" pos="-0.135 -0.02 -0.01" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="lshoulder.stl"  class="visual" />
+        <body name="rear_left_leg_link" pos="0 -0.052 0" quat="1.0 0.0 0.0 0.0">
+          <joint name="rear_left_leg" type="hinge" ref="0.0" class="motor" range="-2.666 1.548" axis="0 1 0" />
+          <inertial mass="0.15" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+          <geom name="rear_left_leg_link_collision" pos="0.0 0.0 -0.050" quat="1.0 0.0 0.0 0.0" type="box" size="0.014 0.018 0.06" class="collision" />
+          <geom name="rear_left_leg_link_visual" pos="-0.125 0.04 -0.02" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="larm.stl"  class="visual" />
+          <body name="rear_left_leg_link_cover" pos="0 0 0" quat="1.0 0.0 0.0 0.0">
+            <geom name="rear_left_leg_link_cover_visual" pos="-0.125 0.04 -0.02" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="larm_cover.stl"  class="visual" />
+          </body>
+          <body name="rear_left_foot_link" pos="-0.01 0 -0.12" quat="1.0 0.0 0.0 0.0">
+            <joint name="rear_left_foot" type="hinge" ref="0.0" class="motor" range="-0.1 2.59" axis="0 1 0" />
+            <inertial mass="0.1" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+            <geom name="rear_left_foot_link_collision" pos="0.0 0.0 -0.050" quat="1.0 0.0 0.0 0.0" type="box" size="0.013 0.01 0.0575" class="collision" />
+            <geom name="rear_left_foot_link_visual" pos="-0.120 0.04 0.1" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="lfoot.stl"  class="visual" />
+            <body name="rear_left_toe_link" pos="0 0 -0.115" quat="1.0 0.0 0.0 0.0">
+              <inertial mass="0.05" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+              <geom name="rear_left_toe_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.02" class="collision" />
+              <geom name="rear_left_toe_link_visual" pos="0 -0.01 0" quat="0.9800566431496228 0.0 -0.1987183338755962 0.0" material="default_material" type="mesh" mesh="foot.stl"  class="visual" />
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="rear_right_shoulder_link" pos="0.093 0.036 0" quat="1.0 0.0 0.0 0.0">
+        <joint name="rear_right_shoulder" type="hinge" ref="0.0" class="motor" range="-0.548 0.548" axis="1 0 0" />
+        <inertial mass="0.10" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+        <geom name="rear_right_shoulder_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="box" size="0.022 0.019 0.035" class="collision" />
+        <geom name="rear_right_shoulder_link_visual" pos="-0.135 -0.09 -0.01" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="rshoulder.stl"  class="visual" />
+        <body name="rear_right_leg_link" pos="0 0.052 0" quat="1.0 0.0 0.0 0.0">
+          <joint name="rear_right_leg" type="hinge" ref="0.0" class="motor" range="-2.666 1.548" axis="0 1 0" />
+          <inertial mass="0.15" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+          <geom name="rear_right_leg_link_collision" pos="0.0 0.0 -0.050" quat="1.0 0.0 0.0 0.0" type="box" size="0.014 0.018 0.06" class="collision" />
+          <geom name="rear_right_leg_link_visual" pos="-0.125 -0.15 -0.02" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="rarm.stl"  class="visual" />
+          <body name="rear_right_leg_link_cover" pos="0 0 0" quat="1.0 0.0 0.0 0.0">
+            <geom name="rear_right_leg_link_cover_visual" pos="-0.125 -0.15 -0.02" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="rarm_cover.stl"  class="visual" />
+          </body>
+          <body name="rear_right_foot_link" pos="-0.01 0 -0.12" quat="1.0 0.0 0.0 0.0">
+            <joint name="rear_right_foot" type="hinge" ref="0.0" class="motor" range="-0.1 2.59" axis="0 1 0" />
+            <inertial mass="0.1" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+            <geom name="rear_right_foot_link_collision" pos="0.0 0.0 -0.050" quat="1.0 0.0 0.0 0.0" type="box" size="0.013 0.01 0.0575" class="collision" />
+            <geom name="rear_right_foot_link_visual" pos="-0.120 -0.15 0.1" quat="1.0 0.0 0.0 0.0" material="default_material" type="mesh" mesh="rfoot.stl"  class="visual" />
+            <body name="rear_right_toe_link" pos="0 0 -0.115" quat="1.0 0.0 0.0 0.0">
+              <inertial mass="0.05" diaginertia="0.05 0.05 0.05" pos="0 0 0"/>
+              <geom name="rear_right_toe_link_collision" pos="0 0 0" quat="1.0 0.0 0.0 0.0" type="sphere" size="0.02" class="collision" />
+              <geom name="rear_right_toe_link_visual" pos="0 -0.01 0" quat="0.9800566431496228 0.0 -0.1987183338755962 0.0" material="default_material" type="mesh" mesh="foot.stl"  class="visual" />
+            </body>
+          </body>
+        </body>
+      </body>
+      <site name="base_link_site" pos="0 0 0" quat="1 0 0 0" />
+      <camera name="front_camera" mode="track" fovy="90.0" quat="4.329780281177467e-17 4.329780281177466e-17 0.7071067811865475 0.7071067811865476" pos="0.0 2.0 0.5" />
+      <camera name="side_camera" mode="track" fovy="90.0" quat="-0.5 -0.4999999999999999 0.5 0.5000000000000001" pos="-2.0 0.0 0.5" />
+    </body>
+  </worldbody>
+
+  <actuator>
+      <!-- Front Left -->
+      <position name="front_left_shoulder_ctrl" joint="front_left_shoulder" kp="60" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+      <position name="front_left_leg_ctrl"      joint="front_left_leg"      kp="200" kv="10" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+      <position name="front_left_foot_ctrl"     joint="front_left_foot"     kp="150" kv="8" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
+
+      <!-- Front Right -->
+      <position name="front_right_shoulder_ctrl" joint="front_right_shoulder" kp="60" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+      <position name="front_right_leg_ctrl"      joint="front_right_leg"      kp="200" kv="10" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+      <position name="front_right_foot_ctrl"     joint="front_right_foot"     kp="150" kv="8" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
+
+      <!-- Rear Left -->
+      <position name="rear_left_shoulder_ctrl" joint="rear_left_shoulder" kp="60" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+      <position name="rear_left_leg_ctrl"      joint="rear_left_leg"      kp="200" kv="10" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+      <position name="rear_left_foot_ctrl"     joint="rear_left_foot"     kp="150" kv="8" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
+
+      <!-- Rear Right -->
+      <position name="rear_right_shoulder_ctrl" joint="rear_right_shoulder" kp="60" kv="3" forcerange="-6.5 6.5" ctrlrange="-0.548 0.548"/>
+      <position name="rear_right_leg_ctrl"      joint="rear_right_leg"      kp="200" kv="10" forcerange="-6.5 6.5" ctrlrange="-2.666 1.548"/>
+      <position name="rear_right_foot_ctrl"     joint="rear_right_foot"     kp="150" kv="8" forcerange="-6.5 6.5" ctrlrange="-0.1 2.59"/>
+  </actuator>
+
+  <contact>
+    <exclude body1="base_link" body2="rear_link" />
+    <exclude body1="base_link" body2="front_link" />
+    <exclude body1="base_link" body2="front_left_shoulder_link" />
+    <exclude body1="front_left_shoulder_link" body2="front_left_leg_link" />
+    <exclude body1="front_left_leg_link" body2="front_left_foot_link" />
+    <exclude body1="front_left_foot_link" body2="front_left_toe_link" />
+    <exclude body1="base_link" body2="front_right_shoulder_link" />
+    <exclude body1="front_right_shoulder_link" body2="front_right_leg_link" />
+    <exclude body1="front_right_leg_link" body2="front_right_foot_link" />
+    <exclude body1="front_right_foot_link" body2="front_right_toe_link" />
+    <exclude body1="base_link" body2="rear_left_shoulder_link" />
+    <exclude body1="rear_left_shoulder_link" body2="rear_left_leg_link" />
+    <exclude body1="rear_left_leg_link" body2="rear_left_foot_link" />
+    <exclude body1="rear_left_foot_link" body2="rear_left_toe_link" />
+    <exclude body1="base_link" body2="rear_right_shoulder_link" />
+    <exclude body1="rear_right_shoulder_link" body2="rear_right_leg_link" />
+    <exclude body1="rear_right_leg_link" body2="rear_right_foot_link" />
+    <exclude body1="rear_right_foot_link" body2="rear_right_toe_link" />
+  </contact>
+
+  <sensor>
+    <framepos name="base_link_site_pos" objtype="site" objname="base_link_site" />
+    <framequat name="base_link_site_quat" objtype="site" objname="base_link_site" />
+    <framelinvel name="base_link_site_linvel" objtype="site" objname="base_link_site" />
+    <frameangvel name="base_link_site_angvel" objtype="site" objname="base_link_site" />
+    <velocimeter name="base_link_site_vel" site="base_link_site" />
+  </sensor>
+</mujoco>
