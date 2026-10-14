@@ -1,0 +1,270 @@
+<?xml version="1.0"?>   
+ 
+
+
+<robot name="spot_micro" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ros2_control configuration block -->
+  <ros2_control name="RobotSystem" type="system">
+        <hardware>
+          <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </hardware>
+
+        <!-- Joint configuration for ros2_control -->
+        <joint name="front_left_shoulder">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="front_left_leg">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>        
+        </joint>
+
+        <joint name="front_left_foot">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="front_right_shoulder">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="front_right_leg">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="front_right_foot">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="rear_left_shoulder">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="rear_left_leg">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="rear_left_foot">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="rear_right_shoulder">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="rear_right_leg">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="rear_right_foot">
+          <command_interface name="effort">
+              <param name="min">-150</param>
+              <param name="max">150</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+  </ros2_control>
+
+  <!-- Transmissions required for controller manager to associate actuators with joints -->
+
+  <transmission name="trans_front_left_shoulder">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="front_left_shoulder">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_front_left_shoulder">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_front_left_leg">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="front_left_leg">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_front_left_leg">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_front_left_foot">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="front_left_foot">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_front_left_foot">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_front_right_shoulder">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="front_right_shoulder">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_front_right_shoulder">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_front_right_leg">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="front_right_leg">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_front_right_leg">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_front_right_foot">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="front_right_foot">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_front_right_foot">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_rear_left_shoulder">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rear_left_shoulder">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_rear_left_shoulder">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_rear_left_leg">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rear_left_leg">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_rear_left_leg">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  <transmission name="trans_rear_left_foot">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rear_left_foot">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_rear_left_foot">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_rear_right_shoulder">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rear_right_shoulder">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_rear_right_shoulder">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_rear_right_leg">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rear_right_leg">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_rear_right_leg">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_rear_right_foot">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rear_right_foot">
+      <hardwareInterface>effort</hardwareInterface>
+    </joint>
+    <actuator name="motor_rear_right_foot">
+      <hardwareInterface>effort</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>

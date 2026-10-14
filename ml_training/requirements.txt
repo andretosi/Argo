@@ -1,0 +1,25 @@
+# Python 3.12
+# Install from this folder: pip install -r requirements.txt
+
+# RL
+gymnasium
+stable-baselines3
+tensorboard
+
+# Simulation
+mujoco
+pybullet
+pyfastnoiselite
+
+# Core
+numpy
+scipy
+pyyaml
+matplotlib
+
+# Devices (joystick)
+pygame
+
+# Notebooks and tests
+notebook
+pytest

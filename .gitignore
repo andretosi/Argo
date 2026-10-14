@@ -1,16 +1,50 @@
-spot_micro/build/
-spot_micro/log/
-spot_micro/install/
-.vscode/
-spot_micro/.vscode/
-venv/
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
 .venv/
-__pycache__
-
-policy_training/logs
-*.png
-*.txt
-dockerfile
-logs
-.egg-info
+venv/
 .python-version
+.pytest_cache/
+
+# Editors
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ROS / colcon workspace
+spot_micro/build/
+spot_micro/install/
+spot_micro/log/
+
+# Training outputs: logs, checkpoints, weights, saved env state
+logs/
+runs/
+wandb/
+*_checkpoints/
+checkpoints/
+policies/
+states/
+ml_training/training/data/
+automated_training/
+*.zip
+*.pkl
+
+# MuJoCo dumps
+MUJOCO_LOG.TXT
+MJDATA.TXT
+
+# Generated docs
+site/
+
+# CAD backups
+*.FCStd1
+*.blend1
+
+# Plots (images used in docs are kept)
+*.png
+!docs/**/*.png

@@ -1,0 +1,8 @@
+Agent: {}
+RandomController:
+  p_base2still: 1.0
+  p_base2turn: 0.0
+  p_base2walk: 0.0
+SpotmicroEnv:
+  survival_reward: 15
+  use_gui: false

@@ -1,0 +1,7 @@
+<library path="spotmicro_hardware_interface">
+    <class name="spotmicro_control/SpotmicroHardwareInterface" type="spotmicro_control::SpotmicroHardwareInterface" base_class_type="hardware_interface::SystemInterface">
+      <description>
+        Hardware interface for SpotMicro robot
+      </description>
+    </class>
+  </library>
