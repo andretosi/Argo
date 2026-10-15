@@ -1,0 +1,48 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+      
+joint_trajectory_controller:
+  ros_parameters:
+        joints:
+        - front_left_shoulder
+        - front_left_leg
+        # - front_left_foot
+        # - front_right_shoulder
+        # - front_right_leg
+        # - front_right_foot
+        # - rear_left_shoulder
+        # - rear_left_leg
+        # - rear_left_foot
+        # - rear_right_shoulder
+        # - rear_right_leg
+        # - rear_right_foot
+        command_interfaces:
+        - effort
+        state_interfaces:
+        - position
+        - velocity
+
+        gains:
+        front_left_shoulder: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        front_left_leg: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        # front_left_foot: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        
+        # front_right_shoulder: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        # front_right_leg: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        # front_right_foot: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        
+        # rear_left_shoulder: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        # rear_left_leg: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        # rear_left_foot: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+       
+        # rear_right_shoulder: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        # rear_right_leg: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}
+        # rear_right_foot: {p: 100.0, d: 1.0, i: 1.0, i_clamp: 1.0}

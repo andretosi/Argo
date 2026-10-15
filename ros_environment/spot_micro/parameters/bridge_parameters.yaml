@@ -1,0 +1,99 @@
+#Load Joint controller publisher
+- ros_topic_name: "clock"
+  gz_topic_name: "clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz-msgs.Clock"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "joint_states"
+  gz_topic_name: "joint_states"
+  ros_type_name: "sensor_msgs/msg/JointState"
+  gz_type_name: "gz.msgs.Model"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/imu/data"
+  gz_topic_name: "/imu/data"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU" # Aggiornato per Harmonic
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/odom"
+  gz_topic_name: "/model/differential_drive_robot/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  direction: GZ_TO_ROS
+
+# - ros_topic_name: "front_right_shoulder/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/front_right_shoulder/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "front_right_leg/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/front_right_leg/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "front_right_foot/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/front_right_foot/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "front_left_shoulder/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/front_left_shoulder/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "front_left_leg/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/front_left_leg/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "front_left_foot/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/front_left_foot/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "rear_left_shoulder/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/rear_left_shoulder/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "rear_left_leg/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/rear_left_leg/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "rear_left_foot/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/rear_left_foot/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "rear_right_shoulder/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/rear_right_shoulder/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "rear_right_leg/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/rear_right_leg/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+
+# - ros_topic_name: "rear_right_foot/command"
+#   gz_topic_name: "model/differential_drive_robot/joint/rear_right_foot/cmd_force"
+#   ros_type_name: "std_msgs/msg/Float64"
+#   gz_type_name: "gz.msgs.Double"
+#   direction: ROS_TO_GZ
+# # Add similar entries for all other joints
+
+

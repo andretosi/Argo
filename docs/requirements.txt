@@ -1,0 +1,5 @@
+# Install from the repository root: pip install -r docs/requirements.txt
+mkdocs
+mkdocs-material
+mkdocstrings
+mkdocstrings-python

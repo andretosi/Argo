@@ -30,6 +30,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
+          paths: [ml_training]
           options:
             show_root_heading: true
             show_source: false
