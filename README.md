@@ -1,13 +1,29 @@
-# Spot Micro AEA PoliMI
+# Argo
 
-An open-source quadruped robotics project by AEA PoliMI, built around the
-SpotMicro platform. The repository combines robot models, simulator backends,
-reinforcement-learning training tools, and early ROS/Gazebo assets for moving
-policies from simulation toward a real robot.
+[Acknowledgements — the people who have contributed to Argo](ACKNOWLEDGEMENTS.md)
 
-The current focus is robust locomotion: training PPO policies that can walk,
-turn, recover from disturbances, and gradually handle harder terrain, friction,
-motor noise, sensor noise, and external pushes.
+Argo is a student robotics research and development project within AEA PoliMI
+at Politecnico di Milano, continuing the earlier AEA Spot Micro project. It
+brings together mechanical design, electronics, software, and robot control,
+with the broader goal of developing robotic systems and exploring how robots
+move, perceive their surroundings, and interact with people.
+
+The immediate focus is establishing a team for **RoboCup Rescue**, while working
+toward institutional project approval and initial funding. A quadruped is the
+intended starting platform, preferably a commercial Unitree robot; acquisition
+is still subject to approval and funding. Competition provides a concrete
+near-term objective within Argo's wider research mission, which includes
+human–robot interaction and interests in actuation, energy systems, and
+bio-inspired mechanical design.
+
+Work is coordinated across mechanical, electronics, and software activities,
+with shared engineering documentation and tasks in
+[Notion — Home & Wiki](https://www.notion.so/14df12925861808981f0c21cc49d1000)
+and code in this repository. The existing codebase builds on Spot Micro robot
+models, MuJoCo and PyBullet simulation backends, reinforcement-learning tools,
+and early ROS/Gazebo assets. Its current locomotion work trains PPO policies
+to walk, turn, recover from disturbances, and handle progressively harder
+terrain, friction, sensor noise, motor noise, and external pushes.
 
 ## What is in this repo
 
@@ -59,8 +75,8 @@ Known active work includes:
 ## Quick start
 
 ```bash
-git clone https://github.com/Andrea18500/aea_spot_micro.git
-cd aea_spot_micro/ml_training
+git clone https://github.com/andretosi/Argo.git
+cd Argo/ml_training
 
 python3.12 -m venv .venv
 source .venv/bin/activate
