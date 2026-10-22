@@ -12,6 +12,7 @@ project names:
 
 - [Ali Pazani](https://github.com/alipzn)
 - [Andrea Tosi](https://github.com/andretosi)
+- Fabio Solia (`FabROBS`)
 - [Filippo Roncone](https://github.com/ronchiz)
 - [Leonardo Piva](https://github.com/leopiva)
 - [Mario Mori](https://github.com/mariomori04)
@@ -22,9 +23,8 @@ project names:
 
 ## Further technical contributions
 
-We also thank **Fabio Solia** for his contributions to the project, and
-**Marco Ferru**, **Francesco Palamara**, and the other members of the mechanical
-team for their work on mechanical design and development.
+We also thank **Marco Ferru**, **Francesco Palamara**, and the other members of
+the mechanical team for their work on mechanical design and development.
 
 ## Original Spot Micro project
 
