@@ -12,7 +12,7 @@ project names:
 
 - [Ali Pazani](https://github.com/alipzn)
 - [Andrea Tosi](https://github.com/andretosi)
-- Fabio Solia (`FabROBS`)
+- [Fabio Solia] (https://github.com/FabioROBS)
 - [Filippo Roncone](https://github.com/ronchiz)
 - [Leonardo Piva](https://github.com/leopiva)
 - [Mario Mori](https://github.com/mariomori04)
