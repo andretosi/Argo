@@ -1,5 +1,0 @@
-{
-    "stubPath": "ml_training/stubs",
-    "extraPaths": ["ml_training"],
-    "typeCheckingMode": "off"
-}

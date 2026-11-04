@@ -1,0 +1,33 @@
+# Walking with the walking reward: follow random walk/turn/stand-still commands.
+#   python training/train.py training/configs/walking.yaml
+
+run:
+  name: walking
+  total_steps: 20_000_000
+  n_envs: 8
+  checkpoints: {every_steps: 500_000, every_minutes: 0}
+
+# Slow commands to start with: about half of the default ones (v_mean 0.23 m/s) are too
+# fast for a robot that can't walk yet. Raise them when resuming once it walks.
+command:
+  random:
+    p_base2still: 1.0
+    p_base2walk: 0.0
+    p_base2turn: 0.0
+    v_mean: [0.1, 0.0]   # [m/s] (vx, vy)
+    v_var: [0.05, 0.02]  # std, as v_mean
+    w_var: 0.2           # [rad/s] std of turn rates
+
+reward:
+  walking:
+    survival_bonus: 1500
+    tipping_penalty: -200
+    fall_penalty: -200
+
+
+ppo:
+  learning_rate: 3.0e-4
+  learning_rate_final: 1.0e-5
+  ent_coef: 0.001
+  clip_range: 0.1
+  log_std_init: -1.0  # initial action std 0.37 instead of 1: start near the homing pose

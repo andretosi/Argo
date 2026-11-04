@@ -1,0 +1,61 @@
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+# Where first-party code lives (for import sorting: stdlib / third-party / project).
+src = ["ml_training"]
+extend-exclude = [
+    "site",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+docstring-code-format = true
+line-ending = "lf"
+
+[tool.ruff.lint]
+# Strict: ruff's full default rule set (pyflakes, import sorting, bugbear, simplify,
+# pylint, pyupgrade, refurb, ...) plus the checks below on top of it.
+extend-select = [
+    "E4",      # pycodestyle: import errors
+    "E7",      # pycodestyle: statement errors
+    "E9",      # pycodestyle: syntax / IO errors
+    "ANN",     # every function fully annotated (parameters and return type)
+    "UP006",   # builtin generics: list[int], not typing.List[int]
+    "UP007",   # X | Y, not typing.Union[X, Y]
+    "UP035",   # no deprecated typing imports
+    "UP045",   # X | None, not typing.Optional[X]
+    "RUF013",  # no implicit Optional: `x: int = None` must be `x: int | None = None`
+]
+ignore = [
+    "ANN401",  # Any is allowed where a value is genuinely dynamic
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Scripts and tests add ml_training/ to sys.path before importing project modules.
+"ml_training/training/**" = ["E402"]
+"ml_training/tools/**" = ["E402"]
+"ml_training/tests/**" = ["E402"]
+
+[tool.pyright]
+extraPaths = ["ml_training"]
+typeCheckingMode = "off"
+
+[tool.coverage.run]
+# The project packages. tools/ holds interactive viewer scripts and is not measured.
+source_pkgs = ["spotmicro", "commands", "training"]
+omit = ["*/training/data/*"]
+# Environments run in forked worker processes (training/vec_env.py): measure them too.
+concurrency = ["multiprocessing", "thread"]
+parallel = true
+sigterm = true
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = true
+exclude_also = [
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+    "@abstractmethod",
+]

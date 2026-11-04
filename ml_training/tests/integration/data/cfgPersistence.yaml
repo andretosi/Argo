@@ -1,5 +1,0 @@
-Agent:
-  joint_max_torque: 1.1
-RandomController: {}
-SpotmicroEnv:
-  use_gui: True

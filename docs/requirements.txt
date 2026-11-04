@@ -1,5 +1,6 @@
 # Install from the repository root: pip install -r docs/requirements.txt
-mkdocs
+mkdocs<2                   # mkdocs-material does not support MkDocs 2.0
 mkdocs-material
 mkdocstrings
 mkdocstrings-python
+pymdown-extensions<12      # 12.x changed Highlight() and breaks current mkdocstrings

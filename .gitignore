@@ -8,6 +8,10 @@ dist/
 venv/
 .python-version
 .pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
 
 # Editors
 .vscode/
@@ -15,11 +19,6 @@ venv/
 
 # Jupyter
 .ipynb_checkpoints/
-
-# ROS / colcon workspace
-spot_micro/build/
-spot_micro/install/
-spot_micro/log/
 
 # Training outputs: logs, checkpoints, weights, saved env state
 logs/

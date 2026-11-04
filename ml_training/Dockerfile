@@ -4,8 +4,8 @@
 
 FROM python:3.12-slim
 
-# Build tools for packages without wheels (pybullet, pyfastnoiselite) and the
-# OpenGL/X11 libraries the PyBullet and MuJoCo GUIs need.
+# Build tools for packages without wheels (pyfastnoiselite) and the
+# OpenGL/X11 libraries the MuJoCo viewer needs.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         libgl1 \
@@ -22,10 +22,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libxi6 \
     && rm -rf /var/lib/apt/lists/*
 
-# PyTorch comes in through stable-baselines3 as the default CUDA build, so the
-# same image uses a GPU when one is available and falls back to CPU otherwise.
+# PyTorch: the CPU build by default. MuJoCo and this small policy run on the CPU, and the
+# CUDA build brings the Triton compiler, whose bundled LLVM collides with the LLVM of the
+# software OpenGL the MuJoCo viewer uses in the container: the process segfaults.
+# For an NVIDIA GPU anyway: --build-arg TORCH_INDEX=https://download.pytorch.org/whl/cu128
+ARG TORCH_INDEX=https://download.pytorch.org/whl/cpu
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir torch --index-url "$TORCH_INDEX" \
     && pip install --no-cache-dir -r /tmp/requirements.txt
 
 # Run as a user with the host's UID/GID so files created in the mounted
@@ -36,11 +40,14 @@ RUN groupadd --gid ${GROUP_ID} dev \
     && useradd --uid ${USER_ID} --gid ${GROUP_ID} --create-home --shell /bin/bash dev
 USER dev
 
-# Top-level modules (environments, robot, training, ...) import from anywhere in the container.
+# GIT_PYTHON_REFRESH: there is no git executable here; keeps GitPython (used by MLflow)
+# from printing a long warning about it.
+# Top-level modules (spotmicro, commands, training, ...) import from anywhere in the container.
 ENV PYTHONPATH=/workspace \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    MUJOCO_GL=glfw
+    MUJOCO_GL=glfw \
+    GIT_PYTHON_REFRESH=quiet
 
 WORKDIR /workspace
 CMD ["bash"]

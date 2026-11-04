@@ -1,0 +1,23 @@
+# Trot forward at a constant 0.2 m/s, starting from a standing policy.
+# Train standing.yaml first.
+#   python training/train.py training/configs/trotting.yaml
+
+run:
+  name: trotting
+  total_steps: 15_000_000
+  init_from: training/data/standing/final.zip   # the standing policy to start from
+  checkpoints: {every_steps: 1_000_000, every_minutes: 0}
+
+command:
+  fixed: {mode: walk}
+
+reward:
+  trotting: {}
+
+ppo:   # same settings the standing policy was trained with
+  learning_rate: 3.0e-4
+  learning_rate_final: 1.0e-5
+  ent_coef: 0.001
+  clip_range: 0.1
+  n_steps: 2048
+  batch_size: 64

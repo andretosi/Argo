@@ -1,14 +1,15 @@
 # Python 3.12
-# Install from this folder: pip install -r requirements.txt
 
 # RL
 gymnasium
 stable-baselines3
 tensorboard
 
+# Experiment tracking (Databricks)
+mlflow[databricks]
+
 # Simulation
 mujoco
-pybullet
 pyfastnoiselite
 
 # Core
@@ -22,4 +23,6 @@ pygame
 
 # Notebooks and tests
 notebook
+ipython
 pytest
+pytest-cov
