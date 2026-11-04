@@ -15,6 +15,12 @@ from commands.device import Device, DeviceConfig, Input
 class Keyboard(Device):
     name = "keyboard"
 
+    # --- Settings ---
+    VAL_SPEED = 1
+    VAL_TURN = 1  # to be tuned to match the robot's turning speed
+    # How long (in seconds) a key stays active after it was pressed
+    KEY_TIMEOUT = 0.1
+
     @dataclass
     class Params(DeviceConfig):
         """No parameters."""
@@ -23,12 +29,6 @@ class Keyboard(Device):
         super().__init__()
         self._enabled = False
         self._orig_settings = None
-
-        # --- Settings ---
-        self.VAL_SPEED = 1
-        self.VAL_TURN = 1  # to be tuned to match the robot's turning speed
-        # How long (in seconds) a key stays active after it was pressed
-        self.KEY_TIMEOUT = 0.1
 
         # --- Internal state ---
         # When each axis last received a key press
