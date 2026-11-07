@@ -1,9 +1,0 @@
-Agent:
-  homing_pitch: 0.4
-RandomController:
-  p_base2still: 0.1
-  p_base2walk: 0.9
-  p_base2turn: 0
-SpotmicroEnv:
-  use_gui: False
-  max_height: 0.6

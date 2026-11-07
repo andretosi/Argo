@@ -2,6 +2,11 @@
 
 [Acknowledgements — the people who have contributed to Argo](ACKNOWLEDGEMENTS.md)
 
+An open-source quadruped robotics project by AEA PoliMI, built around the
+SpotMicro platform. The repository combines a MuJoCo robot model and simulation
+with reinforcement-learning training tools for moving policies from simulation
+toward a real robot.
+
 Argo is a student robotics research and development project within AEA PoliMI
 at Politecnico di Milano, continuing the earlier AEA Spot Micro project. It
 brings together mechanical design, electronics, software, and robot control,
@@ -20,8 +25,7 @@ Work is coordinated across mechanical, electronics, and software activities,
 with shared engineering documentation and tasks in
 [Notion — Home & Wiki](https://www.notion.so/14df12925861808981f0c21cc49d1000)
 and code in this repository. The existing codebase builds on Spot Micro robot
-models, MuJoCo and PyBullet simulation backends, reinforcement-learning tools,
-and early ROS/Gazebo assets. Its current locomotion work trains PPO policies
+models, MuJoCo simulation and reinforcement-learning tools. Its current locomotion work trains PPO policies
 to walk, turn, recover from disturbances, and handle progressively harder
 terrain, friction, sensor noise, motor noise, and external pushes.
 
@@ -30,33 +34,27 @@ terrain, friction, sensor noise, motor noise, and external pushes.
 | Area | Purpose |
 | --- | --- |
 | `ml_training` | Self-contained Python project, with its own `requirements.txt`. |
-| `ml_training/environments` | Gymnasium environments (`SpotmicroEnv`) and terrain generation. |
-| `ml_training/robot` | Robot body model: joints, state, action handling, and the command `Controller`. |
-| `ml_training/physics_backends` | PyBullet and MuJoCo backends behind a common `PhysicsBackend` interface. |
-| `ml_training/command_devices` | Velocity command sources: keyboard, joystick, random and fixed controllers. |
-| `ml_training/configuration` | Config system (`Config`, `@configurable`). |
-| `ml_training/visualization` | Debug visuals: kinematic ghost and command tracker. |
-| `ml_training/robot_models` | URDF and MuJoCo XML robot models. |
-| `ml_training/training` | PPO training scripts, reward functions, curriculum callbacks, and notebooks. |
-| `ml_training/tests` | Unit and integration tests for configuration, controllers, curricula, and environment wiring. |
-| `ml_training/calibration` | MuJoCo PD gain tuning (`tune_pd.py`) and a load test for standing policies (`load_test.py`). |
-| `spot_micro` | ROS/Gazebo-facing model and launch assets. |
+| `ml_training/spotmicro` | The simulated robot: Gymnasium environment (`env.py`), MuJoCo simulation (`sim.py`), joints/state/actions (`agent.py`), terrain generation (`terrain.py`). |
+| `ml_training/commands` | Velocity command sources: random, fixed, keyboard and joystick (`Device`, `Input`). |
+| `ml_training/robot_models` | MuJoCo XML robot model and meshes. |
+| `ml_training/training` | `train.py` / `evaluate.py`, run configs (`configs/`), rewards (`rewards/`), curricula, notebooks, and run outputs (`data/`). |
+| `ml_training/tests` | Unit tests (run configs, controllers, curricula) and an end-to-end train/resume/evaluate test. |
+| `ml_training/tools` | MuJoCo PD gain tuning (`tune_pd.py`), a load test for standing policies (`load_test.py`), and a model viewer (`view_model.py`). |
 | `docs` / `mkdocs.yml` | MkDocs documentation sources. |
 
 ## Core ideas
 
-- **Backend-agnostic environment**: `SpotmicroEnv` routes simulator calls
-  through a `PhysicsBackend`, so PyBullet and MuJoCo can share the same high
-  level training loop.
+- **MuJoCo simulation**: `SpotmicroEnv` creates its own `MujocoSim`; the agent,
+  reward functions and curricula reach the simulator through `env.sim`.
 - **RL-first locomotion stack**: Stable-Baselines3 PPO is used for walking and
   robust policy training.
-- **Curriculum learning**: terrain, pushes, friction, motor noise, sensor noise,
-  and competence tracking are split into focused callbacks.
-- **Configurable components**: the local config system keeps tunable parameters
-  serializable while excluding runtime-only objects such as simulator backends,
-  devices, reward functions, and loggers.
-- **Sim-to-real direction**: ROS/Gazebo assets, actuator realism, command
-  smoothing, and robust evaluation are active areas of development.
+- **One config per run**: a YAML file picks the reward, the command source and the
+  curricula, each with its own parameters; the fully resolved config is saved with
+  every run.
+- **Curriculum learning**: terrain, pushes, friction, motor noise and sensor noise get
+  harder with training time or with measured competence.
+- **Sim-to-real direction**: actuator realism, command smoothing, and robust
+  evaluation are active areas of development.
 
 ## Current status
 
@@ -67,8 +65,6 @@ Known active work includes:
 
 - improving robust-walking reward alignment;
 - validating the MuJoCo path more deeply;
-- cleaning up legacy environment and agent paths;
-- adding better long-run evaluation and checkpoint wiring;
 - preparing smoother sim-to-real behavior with action limits, delays, and
   actuator modeling.
 
@@ -98,7 +94,7 @@ Instead of a local venv, you can work inside a container:
 ```bash
 cd ml_training
 ./run_container.sh                                   # interactive shell
-./run_container.sh python training/train_robust.py   # or run one command
+./run_container.sh python training/train.py training/configs/robust_walking.yaml   # or one command
 ```
 
 The script builds the image from `ml_training/Dockerfile` (cached after the
@@ -126,43 +122,81 @@ python -m mkdocs build --strict
 
 ## Training
 
-The main robust-training entry point is:
+Every run is described by one YAML config in `ml_training/training/configs/`:
+
+| Config | Task |
+| --- | --- |
+| `robust_walking.yaml` | Omnidirectional walking with curricula (terrain, pushes, friction, noise) |
+| `standing.yaml` | Stand still at the homing pose |
+| `trotting.yaml` | Trot forward, starting from a standing policy (`run.init_from`) |
+| `walking.yaml` | Walking with the original hand-designed reward |
+| `jumping.yaml` | Periodic crouch-and-jump |
+
+From `ml_training/`:
 
 ```bash
-python training/train_robust.py   # from ml_training/
+python training/train.py training/configs/robust_walking.yaml
+python training/train.py --resume training/data/robust_walking/checkpoints/step_000500000.zip
+python training/evaluate.py training/data/robust_walking/final.zip
+python training/evaluate.py <model.zip> --command joystick   # drive the policy yourself
 ```
 
-Important knobs are intentionally near the top of that file:
+A config has these sections (only `command` and `reward` are required):
 
-- physics backend: `pybullet` or `mujoco`;
-- GUI/headless mode;
-- total PPO steps;
-- checkpoint frequency;
-- curriculum schedules for terrain, pushes, friction, motor noise, sensor noise,
-  and competence-based progression.
+```yaml
+run:     {name: my_run, total_steps: 10_000_000, n_envs: 16, init_from: null, checkpoints: {every_steps: 500_000}}
+env:     {max_episode_len: 3000}            # SpotmicroEnv settings
+agent:   {}                                 # robot settings (homing pose, limits, ...)
+command:                                    # where the velocity command comes from
+  random: {p_base2walk: 0.7}                #   random | fixed | keyboard | joystick
+reward:                                     # which reward, then its own parameters
+  robust_walking: {tracking_sigma: 0.25}    #   robust_walking | walking | trotting | standing | jumping
+curriculum:                                 # optional
+  progression: competence                   #   or: time
+  terrain: {z_max: [0.01, 0.10]}            #   terrain | push | friction | motor_noise | sensor_noise
+ppo:     {learning_rate: 3.0e-4, learning_rate_final: 1.0e-5}
+```
 
-Older and simpler training scripts are also present in `ml_training/training/`, including
-`train_policy.py`, `train_further.py`, and policy test scripts. Some notebooks
-under `ml_training/training/notebooks/` are experimental snapshots and may reflect older
-training flows.
+`run.n_envs` runs that many simulations in parallel, one process each (MuJoCo runs on the
+CPU, so this is what speeds training up; `--gui` trains with one). On Linux/WSL with an
+x86-64 CPU, the processes exchange steps through shared memory
+(`training/vec_env.py`), which avoids the per-step messaging cost of pipes; elsewhere
+SB3's `SubprocVecEnv` is used. Use about two thirds of your CPU threads at most (16 on a
+24-thread CPU): the workers poll for work, and more of them than cores slows everything. PPO collects `ppo.n_steps`
+steps from each, so keep `n_envs * n_steps` at the rollout size you want (2048 in
+`robust_walking.yaml`: 16 x 128). `run.torch_threads` (default 1) is the number of PyTorch
+threads; one is fastest for the small policy network.
 
-## Simulation backends
+Unknown names or parameters are errors; anything left out keeps its default. A run writes
+`training/data/<name>/` with the resolved `config.yaml`, checkpoints (each with a
+`.state.yaml` holding the curriculum state, used to resume or replay), `final.zip`, and
+TensorBoard logs. To add a reward, write a `Reward` subclass in `training/rewards/` with a
+`name` (its key under `reward:`), a nested `Params(RewardConfig)` dataclass (its
+parameters) and a `compute(env, action)` method returning the step's reward components, and
+add it to `REWARDS` in `training/rewards/__init__.py`. The environment only decides when an
+episode ends (`env.termination`: `"fall"` or `"tipping"`, and `env.truncated` at the time
+limit); every reward scores that with its `fall_penalty`, `tipping_penalty` and
+`survival_bonus` parameters, inherited from `RewardConfig`. In the loaded config,
+`config.reward` is that `Params` object: `config.reward.name`, `config.reward.make()`.
+Command devices (`DeviceConfig`) and curricula (`CurriculumConfig`) work the same way.
 
-The active backend factory is:
+The notebooks in `ml_training/training/notebooks/` (one per config) call the same
+`train` / `evaluate` functions. `evaluate.py` replays models from run folders only: it
+takes the config and curriculum state saved with the model.
+
+## Simulation
+
+The robot is simulated in MuJoCo, from `ml_training/robot_models/spotmicroai.mujoco.xml`.
+The environment creates the simulation itself:
 
 ```python
-from physics_backends.factory import create_backend
-
-backend = create_backend("pybullet", use_gui=False)
+env = SpotmicroEnv(command, reward, params=EnvParams(), use_gui=False)
+env.sim  # the MujocoSim instance (model, data, viewer)
 ```
 
-Supported backend names:
-
-- `pybullet`
-- `mujoco`
-
-Both backends are intended to expose the same `PhysicsBackend` interface so the
-agent, environment, reward functions, and curricula can stay simulator-agnostic.
+Commands, observations and the agent state use the **robot frame**: x towards the head,
+y to the left, z up. A positive `vx` command means walking head first, positive `vy` moves
+left, and a positive yaw rate turns left. The physics timestep is `1 / env.sim_frequency`.
 
 ## Related project
 
@@ -175,7 +209,9 @@ https://github.com/NicoDelle/can_bootloader
 
 Thanks to the authors of the original
 [Spot Micro](https://spotmicroai.readthedocs.io/en/latest/) project for the CAD
-models and inspiration.
+models and inspiration. The robot meshes in `ml_training/robot_models/meshes` are
+[Spotmicro - robot dog](http://www.thingiverse.com/thing:3445283) by KDY0523,
+licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/).
 
 Built with love by
 [AEA PoliMI](https://www.aeapolimi.it/), the Automation Engineering Association

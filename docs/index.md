@@ -1,17 +1,25 @@
-# Welcome to MkDocs
+# Spot Micro AEA PoliMI
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Reinforcement-learning locomotion for the SpotMicro quadruped, simulated in MuJoCo and
+trained with Stable-Baselines3 PPO. Setup, training commands and the run-config format
+are in the repository [README](https://github.com/Andrea18500/aea_spot_micro#readme).
 
-## Commands
+## Code layout (`ml_training/`)
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+| Package | Contents |
+| --- | --- |
+| `spotmicro` | `SpotmicroEnv` (Gymnasium environment), `MujocoSim`, `Agent` (joints, state, actions), terrain heightmaps |
+| `commands` | Velocity command sources (`Device`) and the command they produce (`Input`) |
+| `training` | `train.py`, `evaluate.py`, run configs, rewards, curricula, notebooks |
+| `robot_models` | MuJoCo XML model and meshes |
+| `tools` | PD gain tuning, standing load test, model viewer |
 
-## Project layout
+How the pieces connect:
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+```
+PPO (SB3) <-> SpotmicroEnv <-> Agent <-> MujocoSim
+                  |  ^             ^
+             reward  curricula     command device
+```
+
+The [API reference](api.md) is generated from the docstrings.

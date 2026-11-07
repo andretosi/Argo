@@ -1,0 +1,22 @@
+# Stand still at the homing pose.
+#   python training/train.py training/configs/standing.yaml
+
+run:
+  name: standing
+  total_steps: 2_000_000
+  n_envs: 8                # parallel simulations; ppo.n_steps is per environment
+  checkpoints: {every_steps: 200_000, every_minutes: 0}
+
+command:
+  fixed: {mode: still}
+
+reward:
+  standing: {}
+
+ppo:
+  learning_rate: 3.0e-4
+  learning_rate_final: 1.0e-5
+  ent_coef: 0.001
+  clip_range: 0.1
+  n_steps: 2048
+  batch_size: 64
