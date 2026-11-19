@@ -1,0 +1,19 @@
+.venv/
+.pytest_cache/
+.ruff_cache/
+**/__pycache__/
+**/*.egg-info/
+*.py[cod]
+build/
+dist/
+
+logs/
+outputs/
+videos/
+wandb/
+
+# The parent repository ignores every .vscode/ folder; keep this project's editor templates.
+!.vscode/
+.vscode/settings.json
+.vscode/launch.json
+pyrightconfig.json

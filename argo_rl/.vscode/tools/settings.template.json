@@ -1,0 +1,31 @@
+{
+    "files.associations": {
+        "*.kit": "toml",
+        "*.rst": "restructuredtext"
+    },
+    "editor.rulers": [120],
+
+    // files to be ignored by the linter
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/_isaac_sim/**": true,
+        "**/_compiler/**": true
+    },
+    // This enables python language server. Seems to work slightly better than jedi:
+    "python.languageServer": "Pylance",
+    // Use ruff as a formatter and linter
+    "ruff.configuration": "${workspaceFolder}/pyproject.toml",
+    // Python environment path
+    // note: the default interpreter is overridden when user selects a workspace interpreter
+    //     in the status bar. For example, the virtual environment python interpreter
+    "python.defaultInterpreterPath": "",
+    // Language specific settings
+    "[python]": {
+        "editor.tabSize": 4
+    },
+    "[restructuredtext]": {
+        "editor.tabSize": 2
+    }
+}

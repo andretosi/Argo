@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "setup_python_env",
+            "type": "shell",
+            "command": "uv run isaaclab --editor",
+            "problemMatcher": []
+        }
+    ]
+}

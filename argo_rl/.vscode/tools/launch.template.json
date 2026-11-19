@@ -1,0 +1,122 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            // Use the interpreter recorded by `isaaclab --editor`; VS Code skips wrapper scripts such as python.sh
+            "python": "${config:python.defaultInterpreterPath}",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Train ArgoRl-Balance-Cartpole with rsl_rl (PPO)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${config:python.defaultInterpreterPath}",
+            "module": "isaaclab",
+            "args": [
+                "train",
+                "--rl_library", "rsl_rl",
+                "--task", "ArgoRl-Balance-Cartpole",
+                "--num_envs", "4096"            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Play ArgoRl-Balance-Cartpole with rsl_rl (PPO)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${config:python.defaultInterpreterPath}",
+            "module": "isaaclab",
+            "args": [
+                "play",
+                "--rl_library", "rsl_rl",
+                "--task", "ArgoRl-Balance-Cartpole",
+                "--num_envs", "32"            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Train ArgoRl-Balance-Cartpole with rsl_rl (DISTILLATION)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${config:python.defaultInterpreterPath}",
+            "module": "isaaclab",
+            "args": [
+                "train",
+                "--rl_library", "rsl_rl",
+                "--task", "ArgoRl-Balance-Cartpole",
+                "--num_envs", "4096"            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Play ArgoRl-Balance-Cartpole with rsl_rl (DISTILLATION)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${config:python.defaultInterpreterPath}",
+            "module": "isaaclab",
+            "args": [
+                "play",
+                "--rl_library", "rsl_rl",
+                "--task", "ArgoRl-Balance-Cartpole",
+                "--num_envs", "32"            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Train ArgoRl-Balance-Cartpole with skrl (PPO)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${config:python.defaultInterpreterPath}",
+            "module": "isaaclab",
+            "args": [
+                "train",
+                "--rl_library", "skrl",
+                "--task", "ArgoRl-Balance-Cartpole",
+                "--num_envs", "4096",
+                "--algorithm", "PPO"            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Play ArgoRl-Balance-Cartpole with skrl (PPO)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${config:python.defaultInterpreterPath}",
+            "module": "isaaclab",
+            "args": [
+                "play",
+                "--rl_library", "skrl",
+                "--task", "ArgoRl-Balance-Cartpole",
+                "--num_envs", "32",
+                "--algorithm", "PPO"            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Train ArgoRl-Balance-Cartpole with skrl (AMP)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${config:python.defaultInterpreterPath}",
+            "module": "isaaclab",
+            "args": [
+                "train",
+                "--rl_library", "skrl",
+                "--task", "ArgoRl-Balance-Cartpole",
+                "--num_envs", "4096",
+                "--algorithm", "AMP"            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Play ArgoRl-Balance-Cartpole with skrl (AMP)",
+            "type": "debugpy",
+            "request": "launch",
+            "python": "${config:python.defaultInterpreterPath}",
+            "module": "isaaclab",
+            "args": [
+                "play",
+                "--rl_library", "skrl",
+                "--task", "ArgoRl-Balance-Cartpole",
+                "--num_envs", "32",
+                "--algorithm", "AMP"            ],
+            "console": "integratedTerminal"
+        },
+    ]
+}

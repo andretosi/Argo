@@ -1,0 +1,186 @@
+# Copyright (c) 2022-2026, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+# All rights reserved.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
+[build-system]
+requires = ["uv_build>=0.12.6,<0.13"]
+build-backend = "uv_build"
+
+[project]
+name = "argo_rl"
+version = "0.1.0"
+description = "Isaac Lab environments for argo_rl."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Argo" },
+]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "isaaclab-dev[rsl-rl,skrl]",
+]
+
+[project.entry-points."isaaclab.tasks"]
+argo_rl = "argo_rl.tasks"
+
+[project.optional-dependencies]
+all = ["isaaclab-dev[all]"]
+dev = ["isaaclab-dev[dev]"]
+importers = ["isaaclab-dev[importers]"]
+isaacsim = ["isaaclab-dev[isaacsim]"]
+leapp = ["isaaclab-dev[leapp]"]
+mimic = ["isaaclab-dev[mimic]"]
+ov = ["isaaclab-dev[ov]"]
+ovphysx = ["isaaclab-dev[ovphysx]"]
+ovrtx = ["isaaclab-dev[ovrtx]"]
+rerun = ["isaaclab-dev[rerun]"]
+rl-games = ["isaaclab-dev[rl-games]"]
+rlinf = ["isaaclab-dev[rlinf]"]
+rsl-rl = ["isaaclab-dev[rsl-rl]"]
+sb3 = ["isaaclab-dev[sb3]"]
+skrl = ["isaaclab-dev[skrl]"]
+skrl-jax = ["isaaclab-dev[skrl-jax]"]
+teleop = ["isaaclab-dev[teleop]"]
+test = ["isaaclab-dev[test]"]
+tetrahedralization = ["isaaclab-dev[tetrahedralization]"]
+torchrl = ["isaaclab-dev[torchrl]"]
+video = ["isaaclab-dev[video]"]
+viser = ["isaaclab-dev[viser]"]
+wandb = ["isaaclab-dev[wandb]"]
+
+[dependency-groups]
+dev = ["codespell>=2.4", "pre-commit>=4.2", "pytest>=8.3", "ruff>=0.11"]
+
+[tool.uv]
+index-strategy = "unsafe-best-match"
+prerelease = "allow"
+environments = [
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+    "sys_platform == 'linux' and platform_machine == 'aarch64'",
+    "sys_platform == 'win32' and platform_machine == 'AMD64'",
+]
+override-dependencies = [
+    "numpy>=2",
+    "mujoco~=3.17.0",
+    "mujoco-warp~=3.17.0",
+    "newton[sim] @ git+https://github.com/newton-physics/newton.git@7f0c13af6e4dd75253709c31dc65c0edcaf22b44",
+    "newton-usd-schemas>=0.5.0",
+    "usd-exchange==3.0.1",
+    "usd-optimize~=1.3.1",
+    "urdf-usd-converter==0.3.4",
+    "mujoco-usd-converter==0.7.0",
+    "torch==2.11.0",
+    "torchvision==0.26.0",
+    "fsspec>=2026.6.0",
+    "packaging>=20,<27",
+    "urllib3>=2.8.0",
+]
+
+[tool.uv.sources]
+"isaaclab" = { path = "../../IsaacLab/source/isaaclab", editable = true }
+"isaaclab-assets" = { path = "../../IsaacLab/source/isaaclab_assets", editable = true }
+"isaaclab-contrib" = { path = "../../IsaacLab/source/isaaclab_contrib", editable = true }
+"isaaclab-dev" = { path = "../../IsaacLab", editable = true }
+"isaaclab-experimental" = { path = "../../IsaacLab/source/isaaclab_experimental", editable = true }
+"isaaclab-mimic" = { path = "../../IsaacLab/source/isaaclab_mimic", editable = true }
+"isaaclab-newton" = { path = "../../IsaacLab/source/isaaclab_newton", editable = true }
+"isaaclab-ov" = { path = "../../IsaacLab/source/isaaclab_ov", editable = true }
+"isaaclab-physx" = { path = "../../IsaacLab/source/isaaclab_physx", editable = true }
+"isaaclab-ppisp" = { path = "../../IsaacLab/source/isaaclab_ppisp", editable = true }
+"isaaclab-rl" = { path = "../../IsaacLab/source/isaaclab_rl", editable = true }
+"isaaclab-tasks" = { path = "../../IsaacLab/source/isaaclab_tasks", editable = true }
+"isaaclab-tasks-experimental" = { path = "../../IsaacLab/source/isaaclab_tasks_experimental", editable = true }
+"isaaclab-teleop" = { path = "../../IsaacLab/source/isaaclab_teleop", editable = true }
+"isaaclab-visualizers" = { path = "../../IsaacLab/source/isaaclab_visualizers", editable = true }
+"ovphysx" = { index = "pypi-public" }
+"ovrtx" = { index = "pypi-public" }
+"ovstage" = { index = "pypi-public" }
+"ovstorage" = { index = "pypi-public" }
+"physx-usd-schemas" = { index = "pypi-public" }
+"torch" = { index = "pytorch-cu130" }
+"torchvision" = { index = "pytorch-cu130" }
+
+[tool.uv.build-backend]
+module-name = "argo_rl"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.flake8-bugbear]
+# Isaac Lab MDP terms conventionally default to `asset_cfg=SceneEntityCfg("robot")`.
+extend-immutable-calls = ["isaaclab.managers.SceneEntityCfg"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["argo_rl"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "isaaclab",
+    "isaaclab-rl",
+    "isaaclab-tasks",
+    "isaaclab-assets",
+    "first-party",
+    "local-folder",
+]
+
+[tool.ruff.lint.isort.sections]
+isaaclab = ["isaaclab", "isaaclab_newton", "isaaclab_ov", "isaaclab_physx"]
+"isaaclab-rl" = ["isaaclab_rl"]
+"isaaclab-tasks" = ["isaaclab_tasks"]
+"isaaclab-assets" = ["isaaclab_assets"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = ["F401", "F403"]
+"**/__init__.pyi" = ["F401", "F403"]
+"scripts/**/*.py" = ["E402"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.pyright]
+include = ["src", "scripts", "tests"]
+exclude = ["**/__pycache__", "**/logs", ".git", ".venv", ".vscode"]
+typeCheckingMode = "basic"
+venvPath = "."
+venv = ".venv"
+
+reportAttributeAccessIssue = "warning"
+reportAssignmentType = "warning"
+reportArgumentType = "warning"
+reportOptionalMemberAccess = "warning"
+reportOptionalSubscript = "warning"
+reportCallIssue = "warning"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "unit: test exercises isolated logic and does not launch the simulator",
+    "integration: test drives the simulator/scene/environment end-to-end",
+    "smoke: tests for core installation, task, and RL functionality",
+    "kitless: test must pass inside the Kit-less container, which has no Isaac Sim runtime",
+]
+
+[tool.codespell]
+skip = "*.usd,*.usda,*.usdc,*.json,*.onnx,*.pt,*.mp4,*.data,uv.lock,logs"
+
+[[tool.uv.index]]
+url = "https://pypi.nvidia.com"
+explicit = false
+
+[[tool.uv.index]]
+name = "pypi-public"
+url = "https://pypi.org/simple"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+

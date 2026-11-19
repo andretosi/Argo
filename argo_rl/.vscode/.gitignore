@@ -1,0 +1,9 @@
+# Ignore all generated files (later rules override earlier ones, so keep this first).
+.python.env
+*.json
+
+# Note: These files are kept for development purposes only.
+!tools/launch.template.json
+!tools/settings.template.json
+!extensions.json
+!tasks.json
